@@ -1,0 +1,33 @@
+{
+    "name": "fusic/Apollon",
+    "description": "CakePHP Apollon",
+    "type": "cakephp-plugin",
+    "keywords": ["cakephp", "validation"],
+    "homepage": "https://github.com/fusic/Apollon",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Fusic",
+            "role": "Author"
+        }
+    ],
+    "support": {
+        "source": "https://github.com/fusic/Apollon"
+    },
+    "require": {
+        "cakephp/cakephp": "~3.0"
+    },
+    "require-dev": {
+    },
+    "autoload": {
+        "psr-4": {
+            "Apollon\\": "src"
+        }
+    },
+    "autoload-dev": {
+    },
+    "suggest": {
+    },
+    "extra": {
+    }
+}
