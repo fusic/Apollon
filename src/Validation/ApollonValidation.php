@@ -10,4 +10,12 @@ class ApollonValidation extends Validation
         return (bool) preg_match('/^[0-9]{3}-?[0-9]{4}$/', $value);
     }
     
+    public static function zip1Check($value, $context){
+        return (bool) preg_match('/^[0-9]{3}$/', $value);
+    }
+    
+    public static function zip2Check($value, $context){
+        return (bool) preg_match('/^[0-9]{4}$/', $value);
+    }
+    
 }
