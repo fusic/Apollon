@@ -40,6 +40,17 @@ class ApollonValidation extends Validation
     {
         return (bool) preg_match('/^[0-9]{4}$/', $value);
     }
-    
+
+    /**
+     * 半角英字チェック
+     *
+     * @access public
+     * @author sakuragawa
+     */
+    public static function alpha($check, $context)
+    {
+        $regex = '/^[a-zA-Z]+$/u';
+        return self::_check($check, $regex);
+    }
 }
 
