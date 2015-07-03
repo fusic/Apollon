@@ -12,9 +12,10 @@ class ApollonValidation extends Validation
      * @access public
      * @author hagiwara
      */
-    public static function zipCheck($value, $context)
+    public static function zipCheck($check, $context)
     {
-        return (bool) preg_match('/^[0-9]{3}-?[0-9]{4}$/', $value);
+        $regex = '/^[0-9]{3}-?[0-9]{4}$/';
+        return self::_check($check, $regex);
     }
     
     /**
@@ -24,9 +25,10 @@ class ApollonValidation extends Validation
      * @access public
      * @author hagiwara
      */
-    public static function zip1Check($value, $context)
+    public static function zip1Check($check, $context)
     {
-        return (bool) preg_match('/^[0-9]{3}$/', $value);
+        $regex = '/^[0-9]{3}$/';
+        return self::_check($check, $regex);
     }
     
     /**
@@ -36,9 +38,10 @@ class ApollonValidation extends Validation
      * @access public
      * @author hagiwara
      */
-    public static function zip2Check($value, $context)
+    public static function zip2Check($check, $context)
     {
-        return (bool) preg_match('/^[0-9]{4}$/', $value);
+        $regex = '/^[0-9]{4}$/';
+        return self::_check($check, $regex);
     }
 
     /**
