@@ -1,5 +1,5 @@
 {
-    "name": "fusic/Apollon",
+    "name": "fusic/apollon",
     "description": "CakePHP Apollon",
     "type": "cakephp-plugin",
     "keywords": ["cakephp", "validation"],
