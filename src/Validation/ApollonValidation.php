@@ -47,7 +47,7 @@ class ApollonValidation extends Validation
      * @access public
      * @author sakuragawa
      */
-    public static function alpha($check)
+    public static function alpha($check, $context)
     {
         $regex = '/^[a-zA-Z]+$/u';
         return self::_check($check, $regex);
