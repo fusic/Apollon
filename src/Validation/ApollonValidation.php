@@ -113,7 +113,7 @@ class ApollonValidation extends Validation
      * @return boolean
      * https://github.com/ichikaway/cakeplus
      */
-    public function hiraganaOnly($check)
+    public static function hiraganaOnly($check)
     {
         $regex = '/^(\xe3(\x81[\x81-\xbf]|\x82[\x80-\x93]|\x83\xbc))*$/';
         return self::_check($check, $regex);
@@ -123,7 +123,7 @@ class ApollonValidation extends Validation
      * hiraganaSpaceOnly
      * 全角ひらがな以外にスペースもOKとするバリデーション
      */
-    public function hiraganaSpaceOnly($check)
+    public static function hiraganaSpaceOnly($check)
     {
         $regex = '/^(\xe3(\x81[\x81-\xbf]|\x82[\x80-\x93]|\x83\xbc)|　)*$/';
         return self::_check($check, $regex);
@@ -139,7 +139,7 @@ class ApollonValidation extends Validation
      * @return boolean
      * https://github.com/ichikaway/cakeplus
      */
-    public function katakanaOnly($check)
+    public static function katakanaOnly($check)
     {
         //\xe3\x82\x9b 濁点゛
         //\xe3\x82\x9c 半濁点゜
@@ -151,7 +151,7 @@ class ApollonValidation extends Validation
      * katakanaSpaceOnly
      * 全角カタナカ以外にスペースもOKとするバリデーション
      */
-    public function katakanaSpaceOnly($check)
+    public static function katakanaSpaceOnly($check)
     {
         $regex = '/^(\xe3(\x82[\xa1-\xbf]|\x83[\x80-\xb6]|\x83\xbc|\x82\x9b|\x82\x9c)|　)*$/';
         return self::_check($check, $regex);
@@ -167,7 +167,7 @@ class ApollonValidation extends Validation
      * @return boolean
      * https://github.com/ichikaway/cakeplus
      */
-    public function zenkakuOnly($check)
+    public static function zenkakuOnly($check)
     {
         $regex = '/(?:\xEF\xBD[\xA1-\xBF]|\xEF\xBE[\x80-\x9F])|[\x20-\x7E]/';
         return !self::_check($check, $regex);
@@ -183,7 +183,7 @@ class ApollonValidation extends Validation
      * @return boolean
      * https://github.com/ichikaway/cakeplus
      */
-    public function spaceOnly($check)
+    public static function spaceOnly($check)
     {
         $regex = '/^(\s|　)+$/';
         return !self::_check($check, $regex);
