@@ -104,62 +104,6 @@ class ApollonValidation extends Validation
     }
     
     /**
-     * maxLengthJP
-     * マルチバイト用バリデーション　文字数上限チェック
-     * check max length with Multibyte character.
-     *
-     * @param array $wordvalue    field value, automatically set
-     * @param int $length max length number
-     * @return boolean
-     * https://github.com/ichikaway/cakeplus
-     */
-    public function maxLengthJP($check, $length, $encode = 'UTF-8')
-    {
-        if (is_array($encode) && isset($encode['providers'])){
-            $encode = 'UTF-8';
-        }
-        return(mb_strlen($check, $encode) <= $length);
-    }
-    
-    /**
-     * minLengthJP
-     * マルチバイト用バリデーション　文字数下限チェック
-     * check min length with Multibyte character.
-     *
-     * @param array &$model model object, automatically set
-     * @param array $wordvalue field value, automatically set
-     * @param int $length min length number
-     * @return boolean
-     * https://github.com/ichikaway/cakeplus
-     */
-    public function minLengthJP($check, $length, $encode = 'UTF-8')
-    {
-        if (is_array($encode) && isset($encode['providers'])){
-            $encode = 'UTF-8';
-        }
-        return(mb_strlen($check, $encode) >= $length);
-    }
-    
-    /**
-     * betweenJP
-     * マルチバイト用のbetweenバリデーション
-     *
-     * @param array &$model
-     * @param array $wordvalue
-     * @param int $low
-     * @param int $high
-     * @return boolean
-     * https://github.com/ichikaway/cakeplus
-     */
-    public function betweenJP($check, $low, $high, $encode = 'UTF-8')
-    {
-        if (is_array($encode) && isset($encode['providers'])){
-            $encode = 'UTF-8';
-        }
-        return (mb_strlen($check, $encode) >= $low && mb_strlen($check, $encode) <= $high);
-    }
-    
-    /**
      * hiraganaOnly
      * 全角ひらがな以外が含まれていればエラーとするバリデーションチェック
      * 全角ダッシュ「ー」のみ必要と考えられるので追加

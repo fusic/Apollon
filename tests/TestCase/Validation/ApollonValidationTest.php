@@ -104,54 +104,6 @@ class ApollonValidationTest extends TestCase
     }
 
     /**
-     * test_maxLengthJP method
-     *
-     * @return void
-     */
-    public function test_maxLengthJP()
-    {
-        $this->assertTrue(ApollonValidation::maxLengthJP('aaa', 3));
-        $this->assertFalse(ApollonValidation::maxLengthJP('aaaa', 3));
-        $this->assertTrue(ApollonValidation::maxLengthJP('あああ', 3));
-        $this->assertFalse(ApollonValidation::maxLengthJP('ああああ', 3));
-        $this->assertTrue(ApollonValidation::maxLengthJP('ああa', 3));
-        $this->assertFalse(ApollonValidation::maxLengthJP('ああaあ', 3));
-        $this->assertFalse(ApollonValidation::maxLengthJP('あaaあ', 3));
-    }
-
-    /**
-     * test_maxLengthJP method
-     *
-     * @return void
-     */
-    public function test_minLengthJP()
-    {
-        $this->assertFalse(ApollonValidation::minLengthJP('aaa', 4));
-        $this->assertTrue(ApollonValidation::minLengthJP('aaaa', 4));
-        $this->assertFalse(ApollonValidation::minLengthJP('あああ', 4));
-        $this->assertTrue(ApollonValidation::minLengthJP('ああああ', 4));
-        $this->assertFalse(ApollonValidation::minLengthJP('ああa', 4));
-        $this->assertTrue(ApollonValidation::minLengthJP('ああaあ', 4));
-        $this->assertTrue(ApollonValidation::minLengthJP('あaaあ', 4));
-    }
-
-    /**
-     * test_betweenJP method
-     *
-     * @return void
-     */
-    public function test_betweenJP()
-    {
-        $this->assertTrue(ApollonValidation::betweenJP('aaa', 2, 4));
-        $this->assertFalse(ApollonValidation::betweenJP('aaaaa', 2, 4));
-        $this->assertTrue(ApollonValidation::betweenJP('あああ', 2, 4));
-        $this->assertFalse(ApollonValidation::betweenJP('あああああ', 2, 4));
-        $this->assertTrue(ApollonValidation::betweenJP('ああa', 2, 4));
-        $this->assertFalse(ApollonValidation::betweenJP('ああaあa', 2, 4));
-        $this->assertFalse(ApollonValidation::betweenJP('あaaあa', 2, 4));
-    }
-
-    /**
      * test_hiraganaOnly method
      *
      * @return void
