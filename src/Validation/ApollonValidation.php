@@ -102,5 +102,91 @@ class ApollonValidation extends Validation
         }
         return abs($check) <= $limit;
     }
+    
+    /**
+     * hiraganaOnly
+     * 全角ひらがな以外が含まれていればエラーとするバリデーションチェック
+     * 全角ダッシュ「ー」のみ必要と考えられるので追加
+     * Japanese HIRAGANA Validation
+     * @param array &$model
+     * @param array $wordvalue
+     * @return boolean
+     * https://github.com/ichikaway/cakeplus
+     */
+    public static function hiraganaOnly($check)
+    {
+        $regex = '/^(\xe3(\x81[\x81-\xbf]|\x82[\x80-\x93]|\x83\xbc))*$/';
+        return self::_check($check, $regex);
+    }
+    
+    /**
+     * hiraganaSpaceOnly
+     * 全角ひらがな以外にスペースもOKとするバリデーション
+     */
+    public static function hiraganaSpaceOnly($check)
+    {
+        $regex = '/^(\xe3(\x81[\x81-\xbf]|\x82[\x80-\x93]|\x83\xbc)|　)*$/';
+        return self::_check($check, $regex);
+    }
+    
+    /**
+     * katakanaOnly
+     * 全角カタカナ以外が含まれていればエラーとするバリデーションチェック
+     * Japanese KATAKANA Validation
+     *
+     * @param array &$model
+     * @param array $wordvalue
+     * @return boolean
+     * https://github.com/ichikaway/cakeplus
+     */
+    public static function katakanaOnly($check)
+    {
+        //\xe3\x82\x9b 濁点゛
+        //\xe3\x82\x9c 半濁点゜
+        $regex = '/^(\xe3(\x82[\xa1-\xbf]|\x83[\x80-\xb6]|\x83\xbc|\x82\x9b|\x82\x9c))*$/';
+        return self::_check($check, $regex);
+    }
+    
+    /**
+     * katakanaSpaceOnly
+     * 全角カタナカ以外にスペースもOKとするバリデーション
+     */
+    public static function katakanaSpaceOnly($check)
+    {
+        $regex = '/^(\xe3(\x82[\xa1-\xbf]|\x83[\x80-\xb6]|\x83\xbc|\x82\x9b|\x82\x9c)|　)*$/';
+        return self::_check($check, $regex);
+    }
+    
+    /**
+     * zenkakuOnly
+     * マルチバイト文字以外が含まれていればエラーとするバリデーションチェック
+     * Japanese ZENKAKU Validation
+     *
+     * @param array &$model
+     * @param array $wordvalue
+     * @return boolean
+     * https://github.com/ichikaway/cakeplus
+     */
+    public static function zenkakuOnly($check)
+    {
+        $regex = '/(?:\xEF\xBD[\xA1-\xBF]|\xEF\xBE[\x80-\x9F])|[\x20-\x7E]/';
+        return !self::_check($check, $regex);
+    }
+    
+    /**
+     * spaceOnly
+     * 全角、半角スペースのみであればエラーとするバリデーションチェック
+     * Japanese Space only validation
+     *
+     * @param array &$model
+     * @param array $wordvalue
+     * @return boolean
+     * https://github.com/ichikaway/cakeplus
+     */
+    public static function spaceOnly($check)
+    {
+        $regex = '/^(\s|　)+$/';
+        return !self::_check($check, $regex);
+    }
 }
 
