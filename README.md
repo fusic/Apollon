@@ -1,6 +1,6 @@
 # Apollon
 
-[![Build Status](https://travis-ci.org/fusic/Apollon.svg?branch=master)](https://travis-ci.org/fusic/Apollon)
+[![Build Status](https://img.shields.io/travis/fusic/Apollon/master.svg?style=flat-square)](https://travis-ci.org/fusic/Apollon)
 
 ##バリデーション一覧
 - zip
