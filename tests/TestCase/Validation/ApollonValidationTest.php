@@ -32,63 +32,63 @@ class ApollonValidationTest extends TestCase
     }
 
     /**
-     * test_zipCheck method
+     * test_zip method
      *
      * @return void
      */
-    public function test_zipCheck()
+    public function test_zip()
     {
-        $this->assertTrue(ApollonValidation::zipCheck('810-0001'));
-        $this->assertTrue(ApollonValidation::zipCheck('8100001'));
-        $this->assertFalse(ApollonValidation::zipCheck('810000'));
-        $this->assertFalse(ApollonValidation::zipCheck('8100-001'));
-        $this->assertFalse(ApollonValidation::zipCheck('810-000a'));
+        $this->assertTrue(ApollonValidation::zip('810-0001'));
+        $this->assertTrue(ApollonValidation::zip('8100001'));
+        $this->assertFalse(ApollonValidation::zip('810000'));
+        $this->assertFalse(ApollonValidation::zip('8100-001'));
+        $this->assertFalse(ApollonValidation::zip('810-000a'));
     }
 
     /**
-     * test_zip1Check method
+     * test_zip1 method
      *
      * @return void
      */
-    public function test_zip1Check()
+    public function test_zip1()
     {
-        $this->assertTrue(ApollonValidation::zip1Check('810'));
-        $this->assertFalse(ApollonValidation::zip1Check('8100001'));
-        $this->assertFalse(ApollonValidation::zip1Check('810-0001'));
-        $this->assertFalse(ApollonValidation::zip1Check('81a'));
+        $this->assertTrue(ApollonValidation::zip1('810'));
+        $this->assertFalse(ApollonValidation::zip1('8100001'));
+        $this->assertFalse(ApollonValidation::zip1('810-0001'));
+        $this->assertFalse(ApollonValidation::zip1('81a'));
     }
 
     /**
-     * test_zip2Check method
+     * test_zip2 method
      *
      * @return void
      */
-    public function test_zip2Check()
+    public function test_zip2()
     {
-        $this->assertTrue(ApollonValidation::zip2Check('0001'));
-        $this->assertFalse(ApollonValidation::zip2Check('8100001'));
-        $this->assertFalse(ApollonValidation::zip2Check('810-0001'));
-        $this->assertFalse(ApollonValidation::zip2Check('000a'));
+        $this->assertTrue(ApollonValidation::zip2('0001'));
+        $this->assertFalse(ApollonValidation::zip2('8100001'));
+        $this->assertFalse(ApollonValidation::zip2('810-0001'));
+        $this->assertFalse(ApollonValidation::zip2('000a'));
     }
 
     /**
-     * test_numericCheck method
+     * test_numeric method
      *
      * @return void
      */
-    public function test_numericCheck()
+    public function test_numeric()
     {
-        $this->assertTrue(ApollonValidation::numericCheck('12345'));
-        $this->assertTrue(ApollonValidation::numericCheck('2147483647'));
-        $this->assertTrue(ApollonValidation::numericCheck('-2147483647'));
-        $this->assertFalse(ApollonValidation::numericCheck('2147483648'));
-        $this->assertFalse(ApollonValidation::numericCheck('-2147483648'));
-        $this->assertTrue(ApollonValidation::numericCheck('12345', '20000'));
-        $this->assertFalse(ApollonValidation::numericCheck('12345', '12344'));
+        $this->assertTrue(ApollonValidation::numeric('12345'));
+        $this->assertTrue(ApollonValidation::numeric('2147483647'));
+        $this->assertTrue(ApollonValidation::numeric('-2147483647'));
+        $this->assertFalse(ApollonValidation::numeric('2147483648'));
+        $this->assertFalse(ApollonValidation::numeric('-2147483648'));
+        $this->assertTrue(ApollonValidation::numeric('12345', '20000'));
+        $this->assertFalse(ApollonValidation::numeric('12345', '12344'));
     }
 
     /**
-     * test_numericCheck method
+     * test_naturalNumber method
      *
      * @return void
      */
