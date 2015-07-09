@@ -102,5 +102,147 @@ class ApollonValidation extends Validation
         }
         return abs($check) <= $limit;
     }
+    
+    /**
+     * maxLengthJP
+     * マルチバイト用バリデーション　文字数上限チェック
+     * check max length with Multibyte character.
+     *
+     * @param array $wordvalue    field value, automatically set
+     * @param int $length max length number
+     * @return boolean
+     * https://github.com/ichikaway/cakeplus
+     */
+    public function maxLengthJP($check, $length, $encode = 'UTF-8')
+    {
+        if (is_array($encode) && isset($encode['providers'])){
+            $encode = 'UTF-8';
+        }
+        return(mb_strlen($check, $encode) <= $length);
+    }
+    
+    /**
+     * minLengthJP
+     * マルチバイト用バリデーション　文字数下限チェック
+     * check min length with Multibyte character.
+     *
+     * @param array &$model model object, automatically set
+     * @param array $wordvalue field value, automatically set
+     * @param int $length min length number
+     * @return boolean
+     * https://github.com/ichikaway/cakeplus
+     */
+    public function minLengthJP($check, $length, $encode = 'UTF-8')
+    {
+        if (is_array($encode) && isset($encode['providers'])){
+            $encode = 'UTF-8';
+        }
+        return(mb_strlen($check, $encode) >= $length);
+    }
+    
+    /**
+     * betweenJP
+     * マルチバイト用のbetweenバリデーション
+     *
+     * @param array &$model
+     * @param array $wordvalue
+     * @param int $low
+     * @param int $high
+     * @return boolean
+     * https://github.com/ichikaway/cakeplus
+     */
+    public function betweenJP($check, $low, $high, $encode = 'UTF-8')
+    {
+        if (is_array($encode) && isset($encode['providers'])){
+            $encode = 'UTF-8';
+        }
+        return (mb_strlen($check, $encode) >= $low && mb_strlen($check, $encode) <= $high);
+    }
+    
+    /**
+     * hiraganaOnly
+     * 全角ひらがな以外が含まれていればエラーとするバリデーションチェック
+     * 全角ダッシュ「ー」のみ必要と考えられるので追加
+     * Japanese HIRAGANA Validation
+     * @param array &$model
+     * @param array $wordvalue
+     * @return boolean
+     * https://github.com/ichikaway/cakeplus
+     */
+    public function hiraganaOnly($check)
+    {
+        $regex = '/^(\xe3(\x81[\x81-\xbf]|\x82[\x80-\x93]|\x83\xbc))*$/';
+        return self::_check($check, $regex);
+    }
+    
+    /**
+     * hiraganaSpaceOnly
+     * 全角ひらがな以外にスペースもOKとするバリデーション
+     */
+    public function hiraganaSpaceOnly($check)
+    {
+        $regex = '/^(\xe3(\x81[\x81-\xbf]|\x82[\x80-\x93]|\x83\xbc)|　)*$/';
+        return self::_check($check, $regex);
+    }
+    
+    /**
+     * katakanaOnly
+     * 全角カタカナ以外が含まれていればエラーとするバリデーションチェック
+     * Japanese KATAKANA Validation
+     *
+     * @param array &$model
+     * @param array $wordvalue
+     * @return boolean
+     * https://github.com/ichikaway/cakeplus
+     */
+    public function katakanaOnly($check)
+    {
+        //\xe3\x82\x9b 濁点゛
+        //\xe3\x82\x9c 半濁点゜
+        $regex = '/^(\xe3(\x82[\xa1-\xbf]|\x83[\x80-\xb6]|\x83\xbc|\x82\x9b|\x82\x9c))*$/';
+        return self::_check($check, $regex);
+    }
+    
+    /**
+     * katakanaSpaceOnly
+     * 全角カタナカ以外にスペースもOKとするバリデーション
+     */
+    public function katakanaSpaceOnly($check)
+    {
+        $regex = '/^(\xe3(\x82[\xa1-\xbf]|\x83[\x80-\xb6]|\x83\xbc|\x82\x9b|\x82\x9c)|　)*$/';
+        return self::_check($check, $regex);
+    }
+    
+    /**
+     * zenkakuOnly
+     * マルチバイト文字以外が含まれていればエラーとするバリデーションチェック
+     * Japanese ZENKAKU Validation
+     *
+     * @param array &$model
+     * @param array $wordvalue
+     * @return boolean
+     * https://github.com/ichikaway/cakeplus
+     */
+    public function zenkakuOnly($check)
+    {
+        $regex = '/(?:\xEF\xBD[\xA1-\xBF]|\xEF\xBE[\x80-\x9F])|[\x20-\x7E]/';
+        return !self::_check($check, $regex);
+    }
+    
+    /**
+     * spaceOnly
+     * 全角、半角スペースのみであればエラーとするバリデーションチェック
+     * Japanese Space only validation
+     *
+     * @param array &$model
+     * @param array $wordvalue
+     * @return boolean
+     * https://github.com/ichikaway/cakeplus
+     */
+    public function spaceOnly($check)
+    {
+        $regex = '/^(\s|　)+$/';
+        return !self::_check($check, $regex);
+    }
 }
 
