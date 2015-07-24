@@ -17,6 +17,7 @@ use Cake\Datasource\ConnectionManager;
 use Cake\I18n\I18n;
 use Cake\Log\Log;
 use Cake\Routing\DispatcherFactory;
+
 require_once 'vendor/autoload.php';
 // Path constants to a few helpful things.
 /*define('ROOT', dirname(__DIR__) . DS);

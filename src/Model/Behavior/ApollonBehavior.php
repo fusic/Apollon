@@ -6,8 +6,8 @@ use Cake\ORM\Behavior;
 use Cake\Event\Event;
 use Cake\Validation\Validator;
 
-class ApollonBehavior extends Behavior {
-
+class ApollonBehavior extends Behavior
+{
     /**
      * バリデーター初期化イベント
      *
@@ -37,4 +37,3 @@ class ApollonBehavior extends Behavior {
         return $events;
     }
 }
-

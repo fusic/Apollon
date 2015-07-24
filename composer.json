@@ -19,7 +19,8 @@
     },
     "require-dev": {
         "cakephp/cakephp-codesniffer": "dev-master",
-        "phpunit/phpunit": "*"
+        "phpunit/phpunit": "*",
+        "fabpot/php-cs-fixer": "*"
     },
     "autoload": {
         "psr-4": {

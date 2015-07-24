@@ -10,7 +10,6 @@ use Apollon\Validation\ApollonValidation;
  */
 class ApollonValidationTest extends TestCase
 {
-
     /**
      * setUp method
      *
@@ -200,5 +199,4 @@ class ApollonValidationTest extends TestCase
         $this->assertTrue(ApollonValidation::spaceOnly('a '));
         $this->assertTrue(ApollonValidation::spaceOnly('a　'));
     }
-
 }

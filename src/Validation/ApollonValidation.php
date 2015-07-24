@@ -67,12 +67,12 @@ class ApollonValidation extends Validation
     public static function numeric($check, $limit = 2147483647)
     {
         //providersが間違いなく$contextの内容と考えられるので初期値を入力しなおす
-        if (is_array($limit) && isset($limit['providers'])){
+        if (is_array($limit) && isset($limit['providers'])) {
             $limit = 2147483647;
         }
         
         //coreのチェックを先に行う
-        if (!parent::numeric($check)){
+        if (!parent::numeric($check)) {
             return false;
         }
         return abs($check) <= $limit;
@@ -89,15 +89,15 @@ class ApollonValidation extends Validation
     public static function naturalNumber($check, $allowZero = false, $limit = 2147483647)
     {
         //providersが間違いなく$contextの内容と考えられるので初期値を入力しなおす
-        if (is_array($allowZero) && isset($allowZero['providers'])){
+        if (is_array($allowZero) && isset($allowZero['providers'])) {
             $allowZero = false;
         }
-        if (is_array($limit) && isset($limit['providers'])){
+        if (is_array($limit) && isset($limit['providers'])) {
             $limit = 2147483647;
         }
         
         //coreのチェックを先に行う
-        if (!parent::naturalNumber($check, $allowZero)){
+        if (!parent::naturalNumber($check, $allowZero)) {
             return false;
         }
         return abs($check) <= $limit;
@@ -189,4 +189,3 @@ class ApollonValidation extends Validation
         return !self::_check($check, $regex);
     }
 }
-
