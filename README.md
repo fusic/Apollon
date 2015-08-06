@@ -1,7 +1,7 @@
 # Apollon
 
 [![Build Status](https://img.shields.io/travis/fusic/Apollon/master.svg?style=flat-square)](https://travis-ci.org/fusic/Apollon)
-[![Code Quality](https://scrutinizer-ci.com/g/fusic/Apollon/badges/quality-score.png?style=flat-square)](https://scrutinizer-ci.com/g/fusic/Apollon/)
+[![Code Quality](http://img.shields.io/scrutinizer/g/fusic/Apollon.svg?style=flat-square)](https://scrutinizer-ci.com/g/fusic/Apollon/)
 
 ##バリデーション一覧
 - zip
