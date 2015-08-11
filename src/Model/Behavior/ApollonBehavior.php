@@ -13,7 +13,7 @@ class ApollonBehavior extends Behavior
      *
      * @access public
      * @author sakuragawa
-    */
+     */
     public function buildValidator(Event $event, Validator $validator, $name)
     {
         // ここで自作をしたproviderを追加してあげます。
@@ -23,11 +23,11 @@ class ApollonBehavior extends Behavior
     }
 
     /**
-    * イベント設定
-    *
-    * @access public
-    * @author sakuragawa
-    */
+     * イベント設定
+     *
+     * @access public
+     * @author sakuragawa
+     */
     public function implementedEvents()
     {
         $events = parent::implementedEvents();
