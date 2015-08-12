@@ -203,4 +203,19 @@ class ApollonValidation extends Validation
         $regex = '/^(\s|　)+$/';
         return !self::_check($check, $regex);
     }
+
+    /**
+     * date
+     * YYYY/MM/DD形式で存在する日付を許可するバリデーションチェック
+     *
+     * Japanese Date Validation
+     * @param array $check
+     * @return boolean
+     */
+    public static function date($check)
+    {
+        $regex = '/^(?P<year>[0-9]{4})\/(?P<month>[0-9]{2})\/(?P<day>[0-9]{2})$/';
+        return preg_match($regex, $check, $m) === 1 && checkdate($m['month'] , $m['day'] , $m['year']);
+    }
+
 }
