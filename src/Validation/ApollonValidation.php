@@ -216,7 +216,7 @@ class ApollonValidation extends Validation
      */
     public static function hankakukatakanaOnly($check)
     {
-        $regex = '/^(?:\xEF\xBD[\xA6-\xBF]|\xEF\xBE[\x80-\x9F])+$/';
+        $regex = '/^(?:\xEF\xBD[\xA6-\xBF]|\xEF\xBE[\x80-\x9F])*$/';
         return self::_check($check, $regex);
     }
 
@@ -230,7 +230,7 @@ class ApollonValidation extends Validation
      */
     public static function hankakukatakanaSpaceOnly($check)
     {
-        $regex = '/^(?:\xEF\xBD[\xA6-\xBF]|\xEF\xBE[\x80-\x9F]|\x20)+$/';
+        $regex = '/^(?:\xEF\xBD[\xA6-\xBF]|\xEF\xBE[\x80-\x9F]|\x20)*$/';
         return self::_check($check, $regex);
     }
 
