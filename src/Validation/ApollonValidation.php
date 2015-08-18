@@ -203,4 +203,33 @@ class ApollonValidation extends Validation
         $regex = '/^(\s|　)+$/';
         return !self::_check($check, $regex);
     }
+
+    /**
+     * hankakukatakanaOnly
+     * 半角カタカナ以外が含まれていればエラーとするバリデーションチェック
+     * Japanese HANKAKU KATAKANA Validation
+     *
+     * @param array $check
+     * @return boolean
+     */
+    public static function hankakukatakanaOnly($check)
+    {
+        $regex = '/^(?:\xEF\xBD[\xA1-\xBF]|\xEF\xBE[\x80-\x9F])+$/';
+        return self::_check($check, $regex);
+    }
+
+    /**
+     * hankakukatakanaSpaceOnly
+     * 半角カタカナ以外にも半角スペースもOKとするバリデーション
+     * Japanese HANKAKU KATAKANA SPACE Validation
+     *
+     * @param array $check
+     * @return boolean
+     */
+    public static function hankakukatakanaSpaceOnly($check)
+    {
+        $regex = '/^(?:\xEF\xBD[\xA1-\xBF]|\xEF\xBE[\x80-\x9F]|\x20)+$/';
+        return self::_check($check, $regex);
+    }
+
 }
