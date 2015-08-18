@@ -11,7 +11,7 @@ class ApollonValidation extends Validation
      *
      * @access public
      * @author hagiwara
-     * @param array $check
+     * @param string $check
      * @return boolean
      */
     public static function zip($check)
@@ -26,7 +26,7 @@ class ApollonValidation extends Validation
      *
      * @access public
      * @author hagiwara
-     * @param array $check
+     * @param string $check
      * @return boolean
      */
     public static function zip1($check)
@@ -41,7 +41,7 @@ class ApollonValidation extends Validation
      *
      * @access public
      * @author hagiwara
-     * @param array $check
+     * @param string $check
      * @return boolean
      */
     public static function zip2($check)
@@ -55,6 +55,8 @@ class ApollonValidation extends Validation
      *
      * @access public
      * @author sakuragawa
+     * @param string $check
+     * @return boolean
      */
     public static function alpha($check)
     {
@@ -69,7 +71,7 @@ class ApollonValidation extends Validation
      *
      * @access public
      * @author hagiwara
-     * @param array $check
+     * @param string $check
      * @param integer $limit
      * @return boolean
      */
@@ -94,7 +96,7 @@ class ApollonValidation extends Validation
      *
      * @access public
      * @author hagiwara
-     * @param array $check
+     * @param string $check
      * @param boolean $allowZero
      * @param integer $limit
      * @return boolean
@@ -121,7 +123,7 @@ class ApollonValidation extends Validation
      * 全角ひらがな以外が含まれていればエラーとするバリデーションチェック
      * 全角ダッシュ「ー」のみ必要と考えられるので追加
      * Japanese HIRAGANA Validation
-     * @param array $check
+     * @param string $check
      * @return boolean
      * https://github.com/ichikaway/cakeplus
      */
@@ -135,7 +137,7 @@ class ApollonValidation extends Validation
      * hiraganaSpaceOnly
      * 全角ひらがな以外にスペースもOKとするバリデーション
      *
-     * @param array $check
+     * @param string $check
      * @return boolean
      */
     public static function hiraganaSpaceOnly($check)
@@ -149,7 +151,7 @@ class ApollonValidation extends Validation
      * 全角カタカナ以外が含まれていればエラーとするバリデーションチェック
      * Japanese KATAKANA Validation
      *
-     * @param array $check
+     * @param string $check
      * @return boolean
      * https://github.com/ichikaway/cakeplus
      */
@@ -165,7 +167,7 @@ class ApollonValidation extends Validation
      * katakanaSpaceOnly
      * 全角カタナカ以外にスペースもOKとするバリデーション
      *
-     * @param array $check
+     * @param string $check
      * @return boolean
      */
     public static function katakanaSpaceOnly($check)
@@ -179,7 +181,7 @@ class ApollonValidation extends Validation
      * マルチバイト文字以外が含まれていればエラーとするバリデーションチェック
      * Japanese ZENKAKU Validation
      *
-     * @param array $check
+     * @param string $check
      * @return boolean
      * https://github.com/ichikaway/cakeplus
      */
@@ -194,7 +196,7 @@ class ApollonValidation extends Validation
      * 全角、半角スペースのみであればエラーとするバリデーションチェック
      * Japanese Space only validation
      *
-     * @param array $check
+     * @param string $check
      * @return boolean
      * https://github.com/ichikaway/cakeplus
      */
@@ -203,4 +205,33 @@ class ApollonValidation extends Validation
         $regex = '/^(\s|　)+$/';
         return !self::_check($check, $regex);
     }
+
+    /**
+     * hankakukatakanaOnly
+     * 半角カタカナ以外が含まれていればエラーとするバリデーションチェック
+     * Japanese HANKAKU KATAKANA Validation
+     * http://ash.jp/code/unitbl1.htm
+     * @param string $check
+     * @return boolean
+     */
+    public static function hankakukatakanaOnly($check)
+    {
+        $regex = '/^(?:\xEF\xBD[\xA6-\xBF]|\xEF\xBE[\x80-\x9F])*$/';
+        return self::_check($check, $regex);
+    }
+
+    /**
+     * hankakukatakanaSpaceOnly
+     * 半角カタカナ以外にも半角スペースもOKとするバリデーション
+     * Japanese HANKAKU KATAKANA SPACE Validation
+     * http://ash.jp/code/unitbl1.htm
+     * @param string $check
+     * @return boolean
+     */
+    public static function hankakukatakanaSpaceOnly($check)
+    {
+        $regex = '/^(?:\xEF\xBD[\xA6-\xBF]|\xEF\xBE[\x80-\x9F]|\x20)*$/';
+        return self::_check($check, $regex);
+    }
+
 }

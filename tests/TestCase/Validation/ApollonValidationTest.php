@@ -199,4 +199,44 @@ class ApollonValidationTest extends TestCase
         $this->assertTrue(ApollonValidation::spaceOnly('a '));
         $this->assertTrue(ApollonValidation::spaceOnly('a　'));
     }
+
+    /**
+     * test_hankakukatakanaOnly method
+     *
+     * @return void
+     */
+    public function test_hankakukatakanaOnly()
+    {
+        $this->assertFalse(ApollonValidation::hankakukatakanaOnly('あいうえおー'));
+        $this->assertFalse(ApollonValidation::hankakukatakanaOnly('あいうえおー　'));
+        $this->assertFalse(ApollonValidation::hankakukatakanaOnly('aiueo'));
+        $this->assertFalse(ApollonValidation::hankakukatakanaOnly('ＡＢＣＤＥ'));
+        $this->assertTrue(ApollonValidation::hankakukatakanaOnly('ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜｦﾝｧｨｩｪｫｬｭｮｯｰﾞﾟ'));
+        $this->assertFalse(ApollonValidation::hankakukatakanaOnly('ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜｦﾝｧｨｩｪｫｬｭｮｯｰﾞﾟ｡｢｣､･'));
+        $this->assertFalse(ApollonValidation::hankakukatakanaOnly('あいうエオー'));
+        $this->assertFalse(ApollonValidation::hankakukatakanaOnly('１２３４５６７８９０'));
+        $this->assertFalse(ApollonValidation::hankakukatakanaOnly('1234567890'));
+        $this->assertFalse(ApollonValidation::hankakukatakanaOnly('１２３４５67890'));
+        $this->assertFalse(ApollonValidation::hankakukatakanaOnly('ー＾￥「＠：」￥・；'));
+    }
+
+    /**
+     * test_hankakukatakanaSpaceOnly method
+     *
+     * @return void
+     */
+    public function test_hankakukatakanaSpaceOnly()
+    {
+        $this->assertFalse(ApollonValidation::hankakukatakanaSpaceOnly('あいうえおー'));
+        $this->assertFalse(ApollonValidation::hankakukatakanaSpaceOnly('あいうえおー　'));
+        $this->assertFalse(ApollonValidation::hankakukatakanaSpaceOnly('aiueo'));
+        $this->assertFalse(ApollonValidation::hankakukatakanaSpaceOnly('ＡＢＣＤＥ'));
+        $this->assertTrue(ApollonValidation::hankakukatakanaSpaceOnly('ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜｦﾝｧｨｩｪｫｬｭｮｯｰﾞﾟ '));
+        $this->assertFalse(ApollonValidation::hankakukatakanaSpaceOnly('ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜｦﾝｧｨｩｪｫｬｭｮｯｰﾞﾟ｡｢｣､･ '));
+        $this->assertFalse(ApollonValidation::hankakukatakanaSpaceOnly('あいうエオー'));
+        $this->assertFalse(ApollonValidation::hankakukatakanaSpaceOnly('１２３４５６７８９０'));
+        $this->assertFalse(ApollonValidation::hankakukatakanaSpaceOnly('1234567890'));
+        $this->assertFalse(ApollonValidation::hankakukatakanaSpaceOnly('１２３４５67890'));
+        $this->assertFalse(ApollonValidation::hankakukatakanaSpaceOnly('ー＾￥「＠：」￥・；'));
+    }
 }
