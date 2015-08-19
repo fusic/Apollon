@@ -28,3 +28,7 @@
   - 全角のみチェック
 - spaceOnly
   - スペースのみはエラーチェック
+- hankakukatakanaOnly
+  - 半角カタカナチェック
+- hankakukatakanaSpaceOnly
+  - 半角カタカナ+半角スペースチェック
