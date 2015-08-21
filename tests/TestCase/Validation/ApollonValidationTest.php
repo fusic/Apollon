@@ -239,4 +239,42 @@ class ApollonValidationTest extends TestCase
         $this->assertFalse(ApollonValidation::hankakukatakanaSpaceOnly('１２３４５67890'));
         $this->assertFalse(ApollonValidation::hankakukatakanaSpaceOnly('ー＾￥「＠：」￥・；'));
     }
+
+    /**
+     * test_jpFixedPhone method
+     *
+     * @return void
+     */
+    public function test_jpFixedPhone()
+    {
+        $this->assertFalse(ApollonValidation::jpFixedPhone('12345678901'));
+        $this->assertFalse(ApollonValidation::jpFixedPhone('123-4567-8901'));
+        $this->assertFalse(ApollonValidation::jpFixedPhone('070-4567-8901'));
+        $this->assertFalse(ApollonValidation::jpFixedPhone('080-4567-8901'));
+        $this->assertFalse(ApollonValidation::jpFixedPhone('090-4567-8901'));
+        $this->assertFalse(ApollonValidation::jpFixedPhone('123-4567-8'));
+        $this->assertFalse(ApollonValidation::jpFixedPhone('123-4-8901'));
+        $this->assertFalse(ApollonValidation::jpFixedPhone('1-4567-8901'));
+        $this->assertTrue(ApollonValidation::jpFixedPhone('092-4567-8901'));
+        $this->assertTrue(ApollonValidation::jpFixedPhone('0958-567-8901'));
+        $this->assertFalse(ApollonValidation::jpFixedPhone('0058-567-8901'));
+        $this->assertTrue(ApollonValidation::jpFixedPhone('0958-234-8901'));
+        $this->assertFalse(ApollonValidation::jpFixedPhone('0958-123-8901'));
+    }
+
+    /**
+     * test_jpMobilePhone method
+     *
+     * @return void
+     */
+    public function test_jpMobilePhone()
+    {
+        $this->assertFalse(ApollonValidation::jpMobilePhone('12345678901'));
+        $this->assertFalse(ApollonValidation::jpMobilePhone('123-4567-8901'));
+        $this->assertTrue(ApollonValidation::jpMobilePhone('070-4567-8901'));
+        $this->assertTrue(ApollonValidation::jpMobilePhone('080-4567-8901'));
+        $this->assertTrue(ApollonValidation::jpMobilePhone('090-4567-8901'));
+        $this->assertFalse(ApollonValidation::jpMobilePhone('092-4567-8901'));
+    }
+
 }
