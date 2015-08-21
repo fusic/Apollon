@@ -236,7 +236,7 @@ class ApollonValidation extends Validation
 
     /**
      * jpFixedPhone
-     * 日本国内 固定電話番号チェック
+     * 日本国内 固定電話番号チェック（ハイフン有無しOK）
      * Japanese Fixed-Line Phone Validation
      *　https://perl.g.hatena.ne.jp/Cress/20080528/1211964264
      * @access public
@@ -246,13 +246,13 @@ class ApollonValidation extends Validation
      */
     public static function jpFixedPhone($check)
     {
-        $regex = '/^(0(?:[1-9]|[1-9]{2}\d{0,2}))-([2-9]\d{0,3})-(\d{4})$/';
+        $regex = '/^(0(?:[1-9]|[1-9]{2}\d{0,2}))-?([2-9]\d{0,3})-?(\d{4})$/';
         return self::_check($check, $regex);
     }
 
     /**
      * jpMobilePhone
-     * 日本国内 非固定電話番号チェック（携帯電話/PHS/IP電話）
+     * 日本国内 非固定電話番号チェック（携帯電話/PHS/IP電話）（ハイフン有無しOK）
      * Japanese Mobile/PHS/IP Phone Validation
      *　https://perl.g.hatena.ne.jp/Cress/20080528/1211964264
      * @access public
@@ -262,7 +262,7 @@ class ApollonValidation extends Validation
      */
     public static function jpMobilePhone($check)
     {
-        $regex = '/^0[57-9]0-\d{4}-\d{4}$/';
+        $regex = '/^0[57-9]0-?\d{4}-?\d{4}$/';
         return self::_check($check, $regex);
     }
 

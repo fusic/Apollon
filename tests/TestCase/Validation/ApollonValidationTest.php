@@ -247,7 +247,7 @@ class ApollonValidationTest extends TestCase
      */
     public function test_jpFixedPhone()
     {
-        $this->assertFalse(ApollonValidation::jpFixedPhone('12345678901'));
+        $this->assertTrue(ApollonValidation::jpFixedPhone('012345671890'));
         $this->assertFalse(ApollonValidation::jpFixedPhone('123-4567-8901'));
         $this->assertFalse(ApollonValidation::jpFixedPhone('070-4567-8901'));
         $this->assertFalse(ApollonValidation::jpFixedPhone('080-4567-8901'));
@@ -269,12 +269,13 @@ class ApollonValidationTest extends TestCase
      */
     public function test_jpMobilePhone()
     {
-        $this->assertFalse(ApollonValidation::jpMobilePhone('12345678901'));
         $this->assertFalse(ApollonValidation::jpMobilePhone('123-4567-8901'));
         $this->assertTrue(ApollonValidation::jpMobilePhone('070-4567-8901'));
         $this->assertTrue(ApollonValidation::jpMobilePhone('080-4567-8901'));
         $this->assertTrue(ApollonValidation::jpMobilePhone('090-4567-8901'));
         $this->assertFalse(ApollonValidation::jpMobilePhone('092-4567-8901'));
+        $this->assertTrue(ApollonValidation::jpMobilePhone('050-1234-5678'));
+        $this->assertTrue(ApollonValidation::jpMobilePhone('05012345678'));
     }
 
 }

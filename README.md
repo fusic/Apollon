@@ -33,7 +33,7 @@
 - hankakukatakanaSpaceOnly
   - 半角カタカナ+半角スペースチェック
 - jpFixedPhone
-  - 日本国内 固定電話番号チェック
+  - 日本国内 固定電話番号チェック（ハイフン有無しOK）
 - jpMobilePhone
-  - 日本国内 非固定電話番号チェック（携帯電話/PHS/IP電話）
+  - 日本国内 非固定電話番号チェック（携帯電話/PHS/IP電話）（ハイフン有無しOK）
 
