@@ -241,41 +241,63 @@ class ApollonValidationTest extends TestCase
     }
 
     /**
-     * test_jpFixedPhone method
+     * test_phone method
      *
      * @return void
      */
-    public function test_jpFixedPhone()
+    public function test_phone()
     {
-        $this->assertTrue(ApollonValidation::jpFixedPhone('012345671890'));
-        $this->assertFalse(ApollonValidation::jpFixedPhone('123-4567-8901'));
-        $this->assertFalse(ApollonValidation::jpFixedPhone('070-4567-8901'));
-        $this->assertFalse(ApollonValidation::jpFixedPhone('080-4567-8901'));
-        $this->assertFalse(ApollonValidation::jpFixedPhone('090-4567-8901'));
-        $this->assertFalse(ApollonValidation::jpFixedPhone('123-4567-8'));
-        $this->assertFalse(ApollonValidation::jpFixedPhone('123-4-8901'));
-        $this->assertFalse(ApollonValidation::jpFixedPhone('1-4567-8901'));
-        $this->assertTrue(ApollonValidation::jpFixedPhone('092-4567-8901'));
-        $this->assertTrue(ApollonValidation::jpFixedPhone('0958-567-8901'));
-        $this->assertFalse(ApollonValidation::jpFixedPhone('0058-567-8901'));
-        $this->assertTrue(ApollonValidation::jpFixedPhone('0958-234-8901'));
-        $this->assertFalse(ApollonValidation::jpFixedPhone('0958-123-8901'));
+        $this->assertTrue(ApollonValidation::phone('1234-5678-9012'));
+        $this->assertTrue(ApollonValidation::phone('123456789012'));
+        $this->assertFalse(ApollonValidation::phone('0-1-2'));
+        $this->assertFalse(ApollonValidation::phone('0あ-1-2'));
+        $this->assertFalse(ApollonValidation::phone('0a-1-2'));
     }
 
     /**
-     * test_jpMobilePhone method
+     * test_phone1 method
      *
      * @return void
      */
-    public function test_jpMobilePhone()
+    public function test_phone1()
     {
-        $this->assertFalse(ApollonValidation::jpMobilePhone('123-4567-8901'));
-        $this->assertTrue(ApollonValidation::jpMobilePhone('070-4567-8901'));
-        $this->assertTrue(ApollonValidation::jpMobilePhone('080-4567-8901'));
-        $this->assertTrue(ApollonValidation::jpMobilePhone('090-4567-8901'));
-        $this->assertFalse(ApollonValidation::jpMobilePhone('092-4567-8901'));
-        $this->assertTrue(ApollonValidation::jpMobilePhone('050-1234-5678'));
-        $this->assertTrue(ApollonValidation::jpMobilePhone('05012345678'));
+        $this->assertTrue(ApollonValidation::phone1('12345'));
+        $this->assertTrue(ApollonValidation::phone1('1234'));
+        $this->assertTrue(ApollonValidation::phone1('123'));
+        $this->assertTrue(ApollonValidation::phone1('12'));
+        $this->assertFalse(ApollonValidation::phone1('1'));
+        $this->assertFalse(ApollonValidation::phone1('a'));
+        $this->assertFalse(ApollonValidation::phone1('あ'));
+    }
+
+    /**
+     * test_phone2 method
+     *
+     * @return void
+     */
+    public function test_phone2()
+    {
+        $this->assertTrue(ApollonValidation::phone2('1234'));
+        $this->assertTrue(ApollonValidation::phone2('123'));
+        $this->assertTrue(ApollonValidation::phone2('12'));
+        $this->assertFalse(ApollonValidation::phone2('1'));
+        $this->assertFalse(ApollonValidation::phone2('a'));
+        $this->assertFalse(ApollonValidation::phone2('あ'));
+    }
+
+    /**
+     * test_phone3 method
+     *
+     * @return void
+     */
+    public function test_phone3()
+    {
+        $this->assertTrue(ApollonValidation::phone3('1234'));
+        $this->assertFalse(ApollonValidation::phone3('123'));
+        $this->assertFalse(ApollonValidation::phone3('12'));
+        $this->assertFalse(ApollonValidation::phone3('1'));
+        $this->assertFalse(ApollonValidation::phone3('a'));
+        $this->assertFalse(ApollonValidation::phone3('あ'));
     }
 
 }
