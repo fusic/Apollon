@@ -239,4 +239,65 @@ class ApollonValidationTest extends TestCase
         $this->assertFalse(ApollonValidation::hankakukatakanaSpaceOnly('１２３４５67890'));
         $this->assertFalse(ApollonValidation::hankakukatakanaSpaceOnly('ー＾￥「＠：」￥・；'));
     }
+
+    /**
+     * test_phone method
+     *
+     * @return void
+     */
+    public function test_phone()
+    {
+        $this->assertTrue(ApollonValidation::phone('1234-5678-9012'));
+        $this->assertTrue(ApollonValidation::phone('123456789012'));
+        $this->assertFalse(ApollonValidation::phone('0-1-2'));
+        $this->assertFalse(ApollonValidation::phone('0あ-1-2'));
+        $this->assertFalse(ApollonValidation::phone('0a-1-2'));
+    }
+
+    /**
+     * test_phone1 method
+     *
+     * @return void
+     */
+    public function test_phone1()
+    {
+        $this->assertTrue(ApollonValidation::phone1('12345'));
+        $this->assertTrue(ApollonValidation::phone1('1234'));
+        $this->assertTrue(ApollonValidation::phone1('123'));
+        $this->assertTrue(ApollonValidation::phone1('12'));
+        $this->assertFalse(ApollonValidation::phone1('1'));
+        $this->assertFalse(ApollonValidation::phone1('a'));
+        $this->assertFalse(ApollonValidation::phone1('あ'));
+    }
+
+    /**
+     * test_phone2 method
+     *
+     * @return void
+     */
+    public function test_phone2()
+    {
+        $this->assertTrue(ApollonValidation::phone2('1234'));
+        $this->assertTrue(ApollonValidation::phone2('123'));
+        $this->assertTrue(ApollonValidation::phone2('12'));
+        $this->assertFalse(ApollonValidation::phone2('1'));
+        $this->assertFalse(ApollonValidation::phone2('a'));
+        $this->assertFalse(ApollonValidation::phone2('あ'));
+    }
+
+    /**
+     * test_phone3 method
+     *
+     * @return void
+     */
+    public function test_phone3()
+    {
+        $this->assertTrue(ApollonValidation::phone3('1234'));
+        $this->assertFalse(ApollonValidation::phone3('123'));
+        $this->assertFalse(ApollonValidation::phone3('12'));
+        $this->assertFalse(ApollonValidation::phone3('1'));
+        $this->assertFalse(ApollonValidation::phone3('a'));
+        $this->assertFalse(ApollonValidation::phone3('あ'));
+    }
+
 }

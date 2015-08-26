@@ -234,4 +234,63 @@ class ApollonValidation extends Validation
         return self::_check($check, $regex);
     }
 
+    /**
+     * phone
+     *
+     * @access public
+     * @author hayasaki
+     * @param string $check
+     * @return boolean
+     */
+    public static function phone($check)
+    {
+        $regex = '/^[0-9]{2,5}-?[0-9]{2,4}-?[0-9]{4}$/';
+        return self::_check($check, $regex);
+    }
+
+    /**
+     * phone1
+     * 市外局番範囲は2～5桁
+     *
+     * @access public
+     * @author hayasaki
+     * @param string $check
+     * @return boolean
+     */
+    public static function phone1($check)
+    {
+        $regex = '/^[0-9]{2,5}$/';
+        return self::_check($check, $regex);
+    }
+
+    /**
+     * phone2
+     * 範囲は2～4桁
+     *
+     * @access public
+     * @author hayasaki
+     * @param string $check
+     * @return boolean
+     */
+    public static function phone2($check)
+    {
+        $regex = '/^[0-9]{2,4}$/';
+        return self::_check($check, $regex);
+    }
+
+    /**
+     * phone3
+     * 範囲は4桁固定
+     *
+     * @access public
+     * @author hayasaki
+     * @param string $check
+     * @return boolean
+     */
+    public static function phone3($check)
+    {
+        $regex = '/^[0-9]{4}$/';
+        return self::_check($check, $regex);
+    }
+
 }
