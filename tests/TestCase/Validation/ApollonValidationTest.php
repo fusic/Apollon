@@ -300,4 +300,18 @@ class ApollonValidationTest extends TestCase
         $this->assertFalse(ApollonValidation::phone3('あ'));
     }
 
+    /**
+     * test_emailNonRfc method
+     *
+     * @return void
+     */
+    public function test_emailNonRfc()
+    {
+        $this->assertTrue(ApollonValidation::emailNonRfc('tomonori..shimada@example.jp'));
+        $this->assertTrue(ApollonValidation::emailNonRfc('tomonori.shimada.@example.jp'));
+        $this->assertTrue(ApollonValidation::emailNonRfc('tomonori+shimada@example.jp'));
+        $this->assertFalse(ApollonValidation::emailNonRfc('tomonori.shimada＠example.jp'));
+        $this->assertFalse(ApollonValidation::emailNonRfc('tomonori@shimada@example.jp'));
+    }
+
 }

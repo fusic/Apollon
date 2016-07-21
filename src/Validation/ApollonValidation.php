@@ -293,4 +293,19 @@ class ApollonValidation extends Validation
         return self::_check($check, $regex);
     }
 
+
+    /**
+     * emailNonRfc
+     * メールアドレスチェック（RFC非準拠）
+     *
+     * @access public
+     * @author fantasista21jp
+     * @param string $check
+     * @return boolean
+     */
+    public static function emailNonRfc($check)
+    {
+        $regex = '/^[\.a-z0-9!#$%&\'*+\/=?^_`{|}~-]+@' . self::$_pattern['hostname'] . '$/ui';
+        return self::_check($check, $regex);
+    }
 }
