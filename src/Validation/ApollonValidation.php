@@ -244,7 +244,7 @@ class ApollonValidation extends Validation
      */
     public static function phone($check)
     {
-        $regex = '/^[0-9]{2,5}-?[0-9]{2,4}-?[0-9]{4}$/';
+        $regex = '/^[0-9]{2,5}-?[0-9]{1,4}-?[0-9]{4}$/';
         return self::_check($check, $regex);
     }
 
