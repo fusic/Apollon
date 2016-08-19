@@ -293,7 +293,6 @@ class ApollonValidation extends Validation
         return self::_check($check, $regex);
     }
 
-
     /**
      * emailNonRfc
      * メールアドレスチェック（RFC非準拠）
@@ -307,5 +306,81 @@ class ApollonValidation extends Validation
     {
         $regex = '/^[\.a-z0-9!#$%&\'*+\/=?^_`{|}~-]+@' . self::$_pattern['hostname'] . '$/ui';
         return self::_check($check, $regex);
+    }
+
+    /**
+     * datetimeComparison
+     * 日付比較チェック
+     *
+     * @access public
+     * @author fantasista21jp
+     * @param $check1
+     * @param $operator
+     * @param $check2
+     * @param $context
+     * @return boolean
+     */
+    public static function datetimeComparison($check1, $operator, $check2, $context)
+    {
+        $date1 = $check1;
+        $date2 = $context['data'][$check2];
+
+        if (empty($date1) || empty($date2)) {
+            return true;
+        }
+
+        if (is_array($date1)) {
+            $date1 = static::_getDateString($date1);
+        }
+        if (is_array($date2)) {
+            $date2 = static::_getDateString($date2);
+        }
+
+        $timestamp1 = \Cake\Chronos\Chronos::parse($date1)->timestamp;
+        $timestamp2 = \Cake\Chronos\Chronos::parse($date2)->timestamp;
+
+        $operator = str_replace([' ', "\t", "\n", "\r", "\0", "\x0B"], '', strtolower($operator));
+        switch ($operator) {
+            case 'isgreater':
+            case '>':
+                if ($timestamp1 > $timestamp2) {
+                    return true;
+                }
+                break;
+            case 'isless':
+            case '<':
+                if ($timestamp1 < $timestamp2) {
+                    return true;
+                }
+                break;
+            case 'greaterorequal':
+            case '>=':
+                if ($timestamp1 >= $timestamp2) {
+                    return true;
+                }
+                break;
+            case 'lessorequal':
+            case '<=':
+                if ($timestamp1 <= $timestamp2) {
+                    return true;
+                }
+                break;
+            case 'equalto':
+            case '==':
+                if ($timestamp1 == $timestamp2) {
+                    return true;
+                }
+                break;
+            case 'notequal':
+            case '!=':
+                if ($timestamp1 != $timestamp2) {
+                    return true;
+                }
+                break;
+            default:
+                static::$errors[] = 'You must define the $operator parameter for Validation::datetimeComparison()';
+        }
+
+        return false;
     }
 }
