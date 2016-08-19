@@ -2,6 +2,7 @@
 namespace Apollon\Validation;
 
 use Cake\Validation\Validation;
+use Cake\Chronos\Chronos;
 
 class ApollonValidation extends Validation
 {
@@ -336,47 +337,41 @@ class ApollonValidation extends Validation
             $date2 = static::_getDateString($date2);
         }
 
-        $timestamp1 = \Cake\Chronos\Chronos::parse($date1)->timestamp;
-        $timestamp2 = \Cake\Chronos\Chronos::parse($date2)->timestamp;
+        $parseDate1 = Chronos::parse($date1);
+        $parseDate2 = Chronos::parse($date2);
 
         $operator = str_replace([' ', "\t", "\n", "\r", "\0", "\x0B"], '', strtolower($operator));
         switch ($operator) {
             case 'isgreater':
             case '>':
-                if ($timestamp1 > $timestamp2) {
-                    return true;
-                }
+                return $parseDate1->gt($parseDate2);
                 break;
+
             case 'isless':
             case '<':
-                if ($timestamp1 < $timestamp2) {
-                    return true;
-                }
+                return $parseDate1->lt($parseDate2);
                 break;
+
             case 'greaterorequal':
             case '>=':
-                if ($timestamp1 >= $timestamp2) {
-                    return true;
-                }
+                return $parseDate1->gte($parseDate2);
                 break;
+
             case 'lessorequal':
             case '<=':
-                if ($timestamp1 <= $timestamp2) {
-                    return true;
-                }
+                return $parseDate1->lte($parseDate2);
                 break;
+
             case 'equalto':
             case '==':
-                if ($timestamp1 == $timestamp2) {
-                    return true;
-                }
+                return $parseDate1->eq($parseDate2);
                 break;
+
             case 'notequal':
             case '!=':
-                if ($timestamp1 != $timestamp2) {
-                    return true;
-                }
+                return $parseDate1->ne($parseDate2);
                 break;
+
             default:
                 static::$errors[] = 'You must define the $operator parameter for Validation::datetimeComparison()';
         }
