@@ -42,4 +42,5 @@
   - 電話番号チェック 下4桁
 - emailNonRfc
   - メールアドレスチェック（RFC非準拠）
-
+- datetimeComparison
+  - 日時比較チェック
