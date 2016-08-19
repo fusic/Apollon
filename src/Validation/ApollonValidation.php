@@ -310,7 +310,7 @@ class ApollonValidation extends Validation
 
     /**
      * datetimeComparison
-     * 日付比較チェック
+     * 日時比較チェック
      *
      * @access public
      * @author fantasista21jp
