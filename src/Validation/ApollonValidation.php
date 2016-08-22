@@ -2,6 +2,7 @@
 namespace Apollon\Validation;
 
 use Cake\Validation\Validation;
+use Cake\Chronos\Chronos;
 
 class ApollonValidation extends Validation
 {
@@ -293,7 +294,6 @@ class ApollonValidation extends Validation
         return self::_check($check, $regex);
     }
 
-
     /**
      * emailNonRfc
      * メールアドレスチェック（RFC非準拠）
@@ -307,5 +307,75 @@ class ApollonValidation extends Validation
     {
         $regex = '/^[\.a-z0-9!#$%&\'*+\/=?^_`{|}~-]+@' . self::$_pattern['hostname'] . '$/ui';
         return self::_check($check, $regex);
+    }
+
+    /**
+     * datetimeComparison
+     * 日時比較チェック
+     *
+     * @access public
+     * @author fantasista21jp
+     * @param $check1
+     * @param $operator
+     * @param $check2
+     * @param $context
+     * @return boolean
+     */
+    public static function datetimeComparison($check1, $operator, $check2, $context)
+    {
+        $date1 = $check1;
+        $date2 = $context['data'][$check2];
+
+        if (empty($date1) || empty($date2)) {
+            return true;
+        }
+
+        if (is_array($date1)) {
+            $date1 = static::_getDateString($date1);
+        }
+        if (is_array($date2)) {
+            $date2 = static::_getDateString($date2);
+        }
+
+        $parseDate1 = Chronos::parse($date1);
+        $parseDate2 = Chronos::parse($date2);
+
+        $operator = str_replace([' ', "\t", "\n", "\r", "\0", "\x0B"], '', strtolower($operator));
+        switch ($operator) {
+            case 'isgreater':
+            case '>':
+                return $parseDate1->gt($parseDate2);
+                break;
+
+            case 'isless':
+            case '<':
+                return $parseDate1->lt($parseDate2);
+                break;
+
+            case 'greaterorequal':
+            case '>=':
+                return $parseDate1->gte($parseDate2);
+                break;
+
+            case 'lessorequal':
+            case '<=':
+                return $parseDate1->lte($parseDate2);
+                break;
+
+            case 'equalto':
+            case '==':
+                return $parseDate1->eq($parseDate2);
+                break;
+
+            case 'notequal':
+            case '!=':
+                return $parseDate1->ne($parseDate2);
+                break;
+
+            default:
+                static::$errors[] = 'You must define the $operator parameter for Validation::datetimeComparison()';
+        }
+
+        return false;
     }
 }

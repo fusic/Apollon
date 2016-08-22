@@ -314,4 +314,210 @@ class ApollonValidationTest extends TestCase
         $this->assertFalse(ApollonValidation::emailNonRfc('tomonori@shimada@example.jp'));
     }
 
+    /**
+     * test_datetimeComparison method
+     *
+     * @return void
+     */
+    public function test_datetimeComparison()
+    {
+        $check1 = 'date1';
+        $check2 = 'date2';
+        $context1 = [
+            'data' => [
+                'date1' => [
+                    'year' => 2016,
+                    'month' => 8,
+                    'day' => 5,
+                ],
+                'date2' => [
+                    'year' => 2016,
+                    'month' => 8,
+                    'day' => 5,
+                ],
+            ],
+        ];
+        $context2 = [
+            'data' => [
+                'date1' => '2016-8-5',
+                'date2' => '2016-8-5',
+            ],
+        ];
+        $context3 = [
+            'data' => [
+                'date1' => [
+                    'year' => 2016,
+                    'month' => 8,
+                    'day' => 5,
+                    'hour' => 9,
+                    'minute' => 30,
+                    'second' => 0,
+                ],
+                'date2' => [
+                    'year' => 2016,
+                    'month' => 8,
+                    'day' => 5,
+                    'hour' => 9,
+                    'minute' => 30,
+                    'second' => 0,
+                ],
+            ],
+        ];
+        $context4 = [
+            'data' => [
+                'date1' => '2016-8-5 9:30:0',
+                'date2' => '2016-8-5 9:30:0',
+            ],
+        ];
+        $context5 = [
+            'data' => [
+                'date1' => [
+                    'year' => 2016,
+                    'month' => 8,
+                    'day' => 5,
+                ],
+                'date2' => [
+                    'year' => 2016,
+                    'month' => 8,
+                    'day' => 6,
+                ],
+            ],
+        ];
+        $context6 = [
+            'data' => [
+                'date1' => '2016-8-5',
+                'date2' => '2016-8-6',
+            ],
+        ];
+        $context7 = [
+            'data' => [
+                'date1' => [
+                    'year' => 2016,
+                    'month' => 8,
+                    'day' => 5,
+                    'hour' => 9,
+                    'minute' => 30,
+                    'second' => 0,
+                ],
+                'date2' => [
+                    'year' => 2016,
+                    'month' => 8,
+                    'day' => 5,
+                    'hour' => 9,
+                    'minute' => 30,
+                    'second' => 1,
+                ],
+            ],
+        ];
+        $context8 = [
+            'data' => [
+                'date1' => '2016-8-5 9:30:0',
+                'date2' => '2016-8-5 9:30:1',
+            ],
+        ];
+
+        $this->assertFalse(ApollonValidation::datetimeComparison($context1['data'][$check1], 'isgreater', $check2, $context1));
+        $this->assertFalse(ApollonValidation::datetimeComparison($context1['data'][$check1], '>', $check2, $context1));
+        $this->assertFalse(ApollonValidation::datetimeComparison($context1['data'][$check1], 'isless', $check2, $context1));
+        $this->assertFalse(ApollonValidation::datetimeComparison($context1['data'][$check1], '<', $check2, $context1));
+        $this->assertTrue(ApollonValidation::datetimeComparison($context1['data'][$check1], 'greaterorequal', $check2, $context1));
+        $this->assertTrue(ApollonValidation::datetimeComparison($context1['data'][$check1], '>=', $check2, $context1));
+        $this->assertTrue(ApollonValidation::datetimeComparison($context1['data'][$check1], 'lessorequal', $check2, $context1));
+        $this->assertTrue(ApollonValidation::datetimeComparison($context1['data'][$check1], '<=', $check2, $context1));
+        $this->assertTrue(ApollonValidation::datetimeComparison($context1['data'][$check1], 'equalto', $check2, $context1));
+        $this->assertTrue(ApollonValidation::datetimeComparison($context1['data'][$check1], '==', $check2, $context1));
+        $this->assertFalse(ApollonValidation::datetimeComparison($context1['data'][$check1], 'notequal', $check2, $context1));
+        $this->assertFalse(ApollonValidation::datetimeComparison($context1['data'][$check1], '!=', $check2, $context1));
+
+        $this->assertFalse(ApollonValidation::datetimeComparison($context2['data'][$check1], 'isgreater', $check2, $context2));
+        $this->assertFalse(ApollonValidation::datetimeComparison($context2['data'][$check1], '>', $check2, $context2));
+        $this->assertFalse(ApollonValidation::datetimeComparison($context2['data'][$check1], 'isless', $check2, $context2));
+        $this->assertFalse(ApollonValidation::datetimeComparison($context2['data'][$check1], '<', $check2, $context2));
+        $this->assertTrue(ApollonValidation::datetimeComparison($context2['data'][$check1], 'greaterorequal', $check2, $context2));
+        $this->assertTrue(ApollonValidation::datetimeComparison($context2['data'][$check1], '>=', $check2, $context2));
+        $this->assertTrue(ApollonValidation::datetimeComparison($context2['data'][$check1], 'lessorequal', $check2, $context2));
+        $this->assertTrue(ApollonValidation::datetimeComparison($context2['data'][$check1], '<=', $check2, $context2));
+        $this->assertTrue(ApollonValidation::datetimeComparison($context2['data'][$check1], 'equalto', $check2, $context2));
+        $this->assertTrue(ApollonValidation::datetimeComparison($context2['data'][$check1], '==', $check2, $context2));
+        $this->assertFalse(ApollonValidation::datetimeComparison($context2['data'][$check1], 'notequal', $check2, $context2));
+        $this->assertFalse(ApollonValidation::datetimeComparison($context2['data'][$check1], '!=', $check2, $context2));
+
+        $this->assertFalse(ApollonValidation::datetimeComparison($context3['data'][$check1], 'isgreater', $check2, $context3));
+        $this->assertFalse(ApollonValidation::datetimeComparison($context3['data'][$check1], '>', $check2, $context3));
+        $this->assertFalse(ApollonValidation::datetimeComparison($context3['data'][$check1], 'isless', $check2, $context3));
+        $this->assertFalse(ApollonValidation::datetimeComparison($context3['data'][$check1], '<', $check2, $context3));
+        $this->assertTrue(ApollonValidation::datetimeComparison($context3['data'][$check1], 'greaterorequal', $check2, $context3));
+        $this->assertTrue(ApollonValidation::datetimeComparison($context3['data'][$check1], '>=', $check2, $context3));
+        $this->assertTrue(ApollonValidation::datetimeComparison($context3['data'][$check1], 'lessorequal', $check2, $context3));
+        $this->assertTrue(ApollonValidation::datetimeComparison($context3['data'][$check1], '<=', $check2, $context3));
+        $this->assertTrue(ApollonValidation::datetimeComparison($context3['data'][$check1], 'equalto', $check2, $context3));
+        $this->assertTrue(ApollonValidation::datetimeComparison($context3['data'][$check1], '==', $check2, $context3));
+        $this->assertFalse(ApollonValidation::datetimeComparison($context3['data'][$check1], 'notequal', $check2, $context3));
+        $this->assertFalse(ApollonValidation::datetimeComparison($context3['data'][$check1], '!=', $check2, $context3));
+
+        $this->assertFalse(ApollonValidation::datetimeComparison($context4['data'][$check1], 'isgreater', $check2, $context4));
+        $this->assertFalse(ApollonValidation::datetimeComparison($context4['data'][$check1], '>', $check2, $context4));
+        $this->assertFalse(ApollonValidation::datetimeComparison($context4['data'][$check1], 'isless', $check2, $context4));
+        $this->assertFalse(ApollonValidation::datetimeComparison($context4['data'][$check1], '<', $check2, $context4));
+        $this->assertTrue(ApollonValidation::datetimeComparison($context4['data'][$check1], 'greaterorequal', $check2, $context4));
+        $this->assertTrue(ApollonValidation::datetimeComparison($context4['data'][$check1], '>=', $check2, $context4));
+        $this->assertTrue(ApollonValidation::datetimeComparison($context4['data'][$check1], 'lessorequal', $check2, $context4));
+        $this->assertTrue(ApollonValidation::datetimeComparison($context4['data'][$check1], '<=', $check2, $context4));
+        $this->assertTrue(ApollonValidation::datetimeComparison($context4['data'][$check1], 'equalto', $check2, $context4));
+        $this->assertTrue(ApollonValidation::datetimeComparison($context4['data'][$check1], '==', $check2, $context4));
+        $this->assertFalse(ApollonValidation::datetimeComparison($context4['data'][$check1], 'notequal', $check2, $context4));
+        $this->assertFalse(ApollonValidation::datetimeComparison($context4['data'][$check1], '!=', $check2, $context4));
+
+        $this->assertFalse(ApollonValidation::datetimeComparison($context5['data'][$check1], 'isgreater', $check2, $context5));
+        $this->assertFalse(ApollonValidation::datetimeComparison($context5['data'][$check1], '>', $check2, $context5));
+        $this->assertTrue(ApollonValidation::datetimeComparison($context5['data'][$check1], 'isless', $check2, $context5));
+        $this->assertTrue(ApollonValidation::datetimeComparison($context5['data'][$check1], '<', $check2, $context5));
+        $this->assertFalse(ApollonValidation::datetimeComparison($context5['data'][$check1], 'greaterorequal', $check2, $context5));
+        $this->assertFalse(ApollonValidation::datetimeComparison($context5['data'][$check1], '>=', $check2, $context5));
+        $this->assertTrue(ApollonValidation::datetimeComparison($context5['data'][$check1], 'lessorequal', $check2, $context5));
+        $this->assertTrue(ApollonValidation::datetimeComparison($context5['data'][$check1], '<=', $check2, $context5));
+        $this->assertFalse(ApollonValidation::datetimeComparison($context5['data'][$check1], 'equalto', $check2, $context5));
+        $this->assertFalse(ApollonValidation::datetimeComparison($context5['data'][$check1], '==', $check2, $context5));
+        $this->assertTrue(ApollonValidation::datetimeComparison($context5['data'][$check1], 'notequal', $check2, $context5));
+        $this->assertTrue(ApollonValidation::datetimeComparison($context5['data'][$check1], '!=', $check2, $context5));
+
+        $this->assertFalse(ApollonValidation::datetimeComparison($context6['data'][$check1], 'isgreater', $check2, $context6));
+        $this->assertFalse(ApollonValidation::datetimeComparison($context6['data'][$check1], '>', $check2, $context6));
+        $this->assertTrue(ApollonValidation::datetimeComparison($context6['data'][$check1], 'isless', $check2, $context6));
+        $this->assertTrue(ApollonValidation::datetimeComparison($context6['data'][$check1], '<', $check2, $context6));
+        $this->assertFalse(ApollonValidation::datetimeComparison($context6['data'][$check1], 'greaterorequal', $check2, $context6));
+        $this->assertFalse(ApollonValidation::datetimeComparison($context6['data'][$check1], '>=', $check2, $context6));
+        $this->assertTrue(ApollonValidation::datetimeComparison($context6['data'][$check1], 'lessorequal', $check2, $context6));
+        $this->assertTrue(ApollonValidation::datetimeComparison($context6['data'][$check1], '<=', $check2, $context6));
+        $this->assertFalse(ApollonValidation::datetimeComparison($context6['data'][$check1], 'equalto', $check2, $context6));
+        $this->assertFalse(ApollonValidation::datetimeComparison($context6['data'][$check1], '==', $check2, $context6));
+        $this->assertTrue(ApollonValidation::datetimeComparison($context6['data'][$check1], 'notequal', $check2, $context6));
+        $this->assertTrue(ApollonValidation::datetimeComparison($context6['data'][$check1], '!=', $check2, $context6));
+
+        $this->assertFalse(ApollonValidation::datetimeComparison($context7['data'][$check1], 'isgreater', $check2, $context7));
+        $this->assertFalse(ApollonValidation::datetimeComparison($context7['data'][$check1], '>', $check2, $context7));
+        $this->assertTrue(ApollonValidation::datetimeComparison($context7['data'][$check1], 'isless', $check2, $context7));
+        $this->assertTrue(ApollonValidation::datetimeComparison($context7['data'][$check1], '<', $check2, $context7));
+        $this->assertFalse(ApollonValidation::datetimeComparison($context7['data'][$check1], 'greaterorequal', $check2, $context7));
+        $this->assertFalse(ApollonValidation::datetimeComparison($context7['data'][$check1], '>=', $check2, $context7));
+        $this->assertTrue(ApollonValidation::datetimeComparison($context7['data'][$check1], 'lessorequal', $check2, $context7));
+        $this->assertTrue(ApollonValidation::datetimeComparison($context7['data'][$check1], '<=', $check2, $context7));
+        $this->assertFalse(ApollonValidation::datetimeComparison($context7['data'][$check1], 'equalto', $check2, $context7));
+        $this->assertFalse(ApollonValidation::datetimeComparison($context7['data'][$check1], '==', $check2, $context7));
+        $this->assertTrue(ApollonValidation::datetimeComparison($context7['data'][$check1], 'notequal', $check2, $context7));
+        $this->assertTrue(ApollonValidation::datetimeComparison($context7['data'][$check1], '!=', $check2, $context7));
+
+        $this->assertFalse(ApollonValidation::datetimeComparison($context8['data'][$check1], 'isgreater', $check2, $context8));
+        $this->assertFalse(ApollonValidation::datetimeComparison($context8['data'][$check1], '>', $check2, $context8));
+        $this->assertTrue(ApollonValidation::datetimeComparison($context8['data'][$check1], 'isless', $check2, $context8));
+        $this->assertTrue(ApollonValidation::datetimeComparison($context8['data'][$check1], '<', $check2, $context8));
+        $this->assertFalse(ApollonValidation::datetimeComparison($context8['data'][$check1], 'greaterorequal', $check2, $context8));
+        $this->assertFalse(ApollonValidation::datetimeComparison($context8['data'][$check1], '>=', $check2, $context8));
+        $this->assertTrue(ApollonValidation::datetimeComparison($context8['data'][$check1], 'lessorequal', $check2, $context8));
+        $this->assertTrue(ApollonValidation::datetimeComparison($context8['data'][$check1], '<=', $check2, $context8));
+        $this->assertFalse(ApollonValidation::datetimeComparison($context8['data'][$check1], 'equalto', $check2, $context8));
+        $this->assertFalse(ApollonValidation::datetimeComparison($context8['data'][$check1], '==', $check2, $context8));
+        $this->assertTrue(ApollonValidation::datetimeComparison($context8['data'][$check1], 'notequal', $check2, $context8));
+        $this->assertTrue(ApollonValidation::datetimeComparison($context8['data'][$check1], '!=', $check2, $context8));
+    }
 }
