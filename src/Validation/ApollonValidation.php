@@ -136,7 +136,7 @@ class ApollonValidation extends Validation
 
     /**
      * hiraganaSpaceOnly
-     * 全角ひらがな以外に半角スペースもOKとするバリデーション
+     * 全角ひらがな以外に全角スペースもOKとするバリデーション
      *
      * @param string $check
      * @return boolean
@@ -179,7 +179,7 @@ class ApollonValidation extends Validation
 
     /**
      * katakanaSpaceOnly
-     * 全角カタナカ以外に半角スペースもOKとするバリデーション
+     * 全角カタナカ以外に全角スペースもOKとするバリデーション
      *
      * @param string $check
      * @return boolean
