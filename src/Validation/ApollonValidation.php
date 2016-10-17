@@ -136,7 +136,7 @@ class ApollonValidation extends Validation
 
     /**
      * hiraganaSpaceOnly
-     * 全角ひらがな以外にスペースもOKとするバリデーション
+     * 全角ひらがな以外に全角スペースもOKとするバリデーション
      *
      * @param string $check
      * @return boolean
@@ -144,6 +144,19 @@ class ApollonValidation extends Validation
     public static function hiraganaSpaceOnly($check)
     {
         $regex = '/^(\xe3(\x81[\x81-\xbf]|\x82[\x80-\x93]|\x83\xbc)|　)*$/';
+        return self::_check($check, $regex);
+    }
+
+    /**
+     * hiraganaAllSpaceOnly
+     * 全角ひらがな以外に全半角スペースもOKとするバリデーション
+     *
+     * @param string $check
+     * @return boolean
+     */
+    public static function hiraganaAllSpaceOnly($check)
+    {
+        $regex = '/^(\xe3(\x81[\x81-\xbf]|\x82[\x80-\x93]|\x83\xbc)|\x20|　)*$/';
         return self::_check($check, $regex);
     }
 
@@ -166,7 +179,7 @@ class ApollonValidation extends Validation
 
     /**
      * katakanaSpaceOnly
-     * 全角カタナカ以外にスペースもOKとするバリデーション
+     * 全角カタナカ以外に全角スペースもOKとするバリデーション
      *
      * @param string $check
      * @return boolean
@@ -174,6 +187,19 @@ class ApollonValidation extends Validation
     public static function katakanaSpaceOnly($check)
     {
         $regex = '/^(\xe3(\x82[\xa1-\xbf]|\x83[\x80-\xb6]|\x83\xbc|\x82\x9b|\x82\x9c)|　)*$/';
+        return self::_check($check, $regex);
+    }
+
+    /**
+     * katakanaAllSpaceOnly
+     * 全角カタナカ以外に全半角スペースもOKとするバリデーション
+     *
+     * @param string $check
+     * @return boolean
+     */
+    public static function katakanaAllSpaceOnly($check)
+    {
+        $regex = '/^(\xe3(\x82[\xa1-\xbf]|\x83[\x80-\xb6]|\x83\xbc|\x82\x9b|\x82\x9c)|\x20|　)*$/';
         return self::_check($check, $regex);
     }
 
