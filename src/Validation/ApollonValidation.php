@@ -371,32 +371,26 @@ class ApollonValidation extends Validation
             case 'isgreater':
             case '>':
                 return $parseDate1->gt($parseDate2);
-                break;
 
             case 'isless':
             case '<':
                 return $parseDate1->lt($parseDate2);
-                break;
 
             case 'greaterorequal':
             case '>=':
                 return $parseDate1->gte($parseDate2);
-                break;
 
             case 'lessorequal':
             case '<=':
                 return $parseDate1->lte($parseDate2);
-                break;
 
             case 'equalto':
             case '==':
                 return $parseDate1->eq($parseDate2);
-                break;
 
             case 'notequal':
             case '!=':
                 return $parseDate1->ne($parseDate2);
-                break;
 
             default:
                 static::$errors[] = 'You must define the $operator parameter for Validation::datetimeComparison()';
