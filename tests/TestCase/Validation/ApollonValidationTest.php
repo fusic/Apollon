@@ -183,12 +183,33 @@ class ApollonValidationTest extends TestCase
     {
         $this->assertFalse(ApollonValidation::katakanaSpaceOnly('あいうえおー'));
         $this->assertFalse(ApollonValidation::katakanaSpaceOnly('あいうえおー　'));
+        $this->assertFalse(ApollonValidation::katakanaSpaceOnly('あいうえおー '));
         $this->assertFalse(ApollonValidation::katakanaSpaceOnly('aiueo'));
         $this->assertTrue(ApollonValidation::katakanaSpaceOnly('アイウエオー'));
         $this->assertTrue(ApollonValidation::katakanaSpaceOnly('アイウエオー　'));
+        $this->assertFalse(ApollonValidation::katakanaSpaceOnly('アイウエオー '));
         $this->assertFalse(ApollonValidation::katakanaSpaceOnly('あいうエオー'));
         $this->assertFalse(ApollonValidation::katakanaSpaceOnly('１２３４５６７８９０'));
         $this->assertFalse(ApollonValidation::katakanaSpaceOnly('ー＾￥「＠：」￥・；'));
+    }
+
+    /**
+     * test_katakanaAllSpaceOnly method
+     *
+     * @return void
+     */
+    public function test_katakanaAllSpaceOnly()
+    {
+        $this->assertFalse(ApollonValidation::katakanaAllSpaceOnly('あいうえおー'));
+        $this->assertFalse(ApollonValidation::katakanaAllSpaceOnly('あいうえおー　'));
+        $this->assertFalse(ApollonValidation::katakanaAllSpaceOnly('あいうえおー '));
+        $this->assertFalse(ApollonValidation::katakanaAllSpaceOnly('aiueo'));
+        $this->assertTrue(ApollonValidation::katakanaAllSpaceOnly('アイウエオー'));
+        $this->assertTrue(ApollonValidation::katakanaAllSpaceOnly('アイウエオー　'));
+        $this->assertTrue(ApollonValidation::katakanaAllSpaceOnly('アイウエオー '));
+        $this->assertFalse(ApollonValidation::katakanaAllSpaceOnly('あいうエオー'));
+        $this->assertFalse(ApollonValidation::katakanaAllSpaceOnly('１２３４５６７８９０'));
+        $this->assertFalse(ApollonValidation::katakanaAllSpaceOnly('ー＾￥「＠：」￥・；'));
     }
 
     /**
