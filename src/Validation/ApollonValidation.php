@@ -136,7 +136,7 @@ class ApollonValidation extends Validation
 
     /**
      * hiraganaSpaceOnly
-     * 全角ひらがな以外にスペースもOKとするバリデーション
+     * 全角ひらがな以外に半角スペースもOKとするバリデーション
      *
      * @param string $check
      * @return boolean
@@ -144,6 +144,19 @@ class ApollonValidation extends Validation
     public static function hiraganaSpaceOnly($check)
     {
         $regex = '/^(\xe3(\x81[\x81-\xbf]|\x82[\x80-\x93]|\x83\xbc)|　)*$/';
+        return self::_check($check, $regex);
+    }
+
+    /**
+     * hiraganaAllSpaceOnly
+     * 全角ひらがな以外に全半角スペースもOKとするバリデーション
+     *
+     * @param string $check
+     * @return boolean
+     */
+    public static function hiraganaAllSpaceOnly($check)
+    {
+        $regex = '/^(\xe3(\x81[\x81-\xbf]|\x82[\x80-\x93]|\x83\xbc)|\x20|　)*$/';
         return self::_check($check, $regex);
     }
 
