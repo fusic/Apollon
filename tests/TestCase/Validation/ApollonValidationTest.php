@@ -32,71 +32,158 @@ class ApollonValidationTest extends TestCase
 
     /**
      * test_zip method
-     *
+     * @dataProvider dataProvider_zip
      * @return void
      */
-    public function test_zip()
+    public function test_zip($check, $expected)
     {
-        $this->assertTrue(ApollonValidation::zip('810-0001'));
-        $this->assertTrue(ApollonValidation::zip('8100001'));
-        $this->assertFalse(ApollonValidation::zip('810000'));
-        $this->assertFalse(ApollonValidation::zip('8100-001'));
-        $this->assertFalse(ApollonValidation::zip('810-000a'));
+        $reault = ApollonValidation::zip($check);
+        $this->assertEquals($reault, $expected);
+    }
+    public function dataProvider_zip()
+    {
+        return [
+            // 3桁-4桁
+            ['810-0001', true],
+            ['', false],
+            [null, false],
+            ['810000',   false],
+            ['8100-001', false],
+            ['81-00001', false],
+            ['a10-000a', false],
+            ['810-000a', false],
+        ];
     }
 
     /**
      * test_zip1 method
-     *
+     * @dataProvider dataProvider_zip1
      * @return void
      */
-    public function test_zip1()
+    public function test_zip1($check, $expected)
     {
-        $this->assertTrue(ApollonValidation::zip1('810'));
-        $this->assertFalse(ApollonValidation::zip1('8100001'));
-        $this->assertFalse(ApollonValidation::zip1('810-0001'));
-        $this->assertFalse(ApollonValidation::zip1('81a'));
+        $reault = ApollonValidation::zip1($check);
+        $this->assertEquals($reault, $expected);
+    }
+    public function dataProvider_zip1()
+    {
+        return [
+            // 3桁-4桁
+            ['810', true],
+            ['', false],
+            [null, false],
+            ['81', false],
+            ['8100', false],
+            ['8100001', false],
+            ['810-0001', false],
+            ['81a', false],
+        ];
     }
 
     /**
      * test_zip2 method
-     *
+     * @dataProvider dataProvider_zip2
      * @return void
      */
-    public function test_zip2()
+    public function test_zip2($check, $expected)
     {
-        $this->assertTrue(ApollonValidation::zip2('0001'));
-        $this->assertFalse(ApollonValidation::zip2('8100001'));
-        $this->assertFalse(ApollonValidation::zip2('810-0001'));
-        $this->assertFalse(ApollonValidation::zip2('000a'));
+        $reault = ApollonValidation::zip2($check);
+        $this->assertEquals($reault, $expected);
+    }
+    public function dataProvider_zip2()
+    {
+        return [
+            // 3桁-4桁
+            ['0001', true],
+            ['', false],
+            [null, false],
+            ['810', false],
+            ['8100001', false],
+            ['810-0001', false],
+            ['000a', false],
+        ];
     }
 
     /**
      * test_numeric method
-     *
+     * @dataProvider dataProvider_numeric
      * @return void
      */
-    public function test_numeric()
+    public function test_numeric($check, $expected)
     {
-        $this->assertTrue(ApollonValidation::numeric('12345'));
-        $this->assertTrue(ApollonValidation::numeric('2147483647'));
-        $this->assertTrue(ApollonValidation::numeric('-2147483647'));
-        $this->assertFalse(ApollonValidation::numeric('2147483648'));
-        $this->assertFalse(ApollonValidation::numeric('-2147483648'));
-        $this->assertTrue(ApollonValidation::numeric('12345', '20000'));
-        $this->assertFalse(ApollonValidation::numeric('12345', '12344'));
+        $reault = ApollonValidation::numeric($check);
+        $this->assertEquals($reault, $expected);
+    }
+    public function dataProvider_numeric()
+    {
+        return [
+            [0, true],
+            ['0', true],
+            [-0, true],
+            ['-0', true],
+            [12345, true],
+            ['12345', true],
+            [-12345, true],
+            [-12345, true],
+            // limitのチェック
+            [2147483647, true],
+            ['2147483647', true],
+            [-2147483647, true],
+            ['-2147483647', true],
+            ['', false],
+            [null, false],
+            // 文字列を含む場合
+            ['12345a', false],
+            // 16進数
+            ['7B', false],
+            // 全角数字
+            ['０１２３４５６７８９', false],
+            ['2147483648', false],
+            ['-2147483648', false],
+        ];
     }
 
     /**
-     * test_alphaNumeric
-     * @dataProvider dataProvider_alphaNumeric
+     * test_numeric method
+     * @dataProvider dataProvider_numeric_limit
      * @return void
      */
-    public function test_alphaNumeric($check, $expected)
+    public function test_numeric_limit($check, $limit, $expected)
     {
-        $reault = ApollonValidation::alphaNumeric($check);
+        $reault = ApollonValidation::numeric($check, $limit);
         $this->assertEquals($reault, $expected);
     }
-    public function dataProvider_alphaNumeric()
+    public function dataProvider_numeric_limit()
+    {
+        return [
+            [1000, 1000,  true],
+            [-1000, 1000, true],
+            [999, 1000,  true],
+            [-999, 1000,  true],
+            [2147483647, 2147483648, true],
+            [-2147483647, 2147483648, true],
+            [2147483648, 2147483648, true],
+            [-2147483648, 2147483648, true],
+            [-2147483648, [], true],
+            [-2147483648, ['providers'], true],
+            ['a', 1000,  false],
+            ['7B', 1000,  false],
+            [1, 0,  false],
+            [1000, -1000,  false],
+        ];
+    }
+
+    /**
+     * test_alphaNumericJp
+     * @dataProvider dataProvider_alphaNumericJp
+     * @return void
+     */
+    public function test_alphaNumericJp($check, $expected)
+    {
+        $reault = ApollonValidation::alphaNumericJp($check);
+        $this->assertEquals($reault, $expected);
+    }
+    public function dataProvider_alphaNumericJp()
     {
         return [
             // 半角英字小文字
@@ -113,6 +200,8 @@ class ApollonValidationTest extends TestCase
             ['abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', true],
             // 半角英字小文字 + 半角英字大文字 + 半角数字
             ['abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890', true],
+            ['', false],
+            [null, false],
             // 全角英字小文字
             ['ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚ', false],
             // 全角英字大文字
@@ -229,6 +318,8 @@ class ApollonValidationTest extends TestCase
             ['abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890', true],
             // 半角英字小文字 + 半角英字大文字 + 半角数字 + 記号
             ['abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!"#$%&()*+,-.:;<=>?@[\]^_`{|}~',true],
+            ['', false],
+            [null, false],
             // 全角英字小文字
             ['ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚ', false],
             // 全角英字大文字
@@ -250,284 +341,572 @@ class ApollonValidationTest extends TestCase
 
     /**
      * test_naturalNumber method
-     *
+     * @dataProvider dataProvider_naturalNumber
      * @return void
      */
-    public function test_naturalNumber()
+    public function test_naturalNumber($check, $expected)
     {
-        $this->assertTrue(ApollonValidation::naturalNumber('12345'));
-        $this->assertTrue(ApollonValidation::naturalNumber('2147483647'));
-        $this->assertFalse(ApollonValidation::naturalNumber('-2147483647'));
-        $this->assertFalse(ApollonValidation::naturalNumber('2147483648'));
-        $this->assertFalse(ApollonValidation::naturalNumber('-2147483648'));
-        $this->assertTrue(ApollonValidation::naturalNumber('12345', false, '20000'));
-        $this->assertFalse(ApollonValidation::naturalNumber('12345', false, '12344'));
+        $reault = ApollonValidation::naturalNumber($check);
+        $this->assertEquals($reault, $expected);
+    }
+    public function dataProvider_naturalNumber()
+    {
+        return [
+            ['1', true],
+            ['12345', true],
+            ['2147483647', true],
+            ['', false],
+            [null, false],
+            ['0', false],
+            ['-1', false],
+            ['-1', false],
+            ['-2147483647', false],
+            ['2147483648', false],
+            ['-2147483648', false],
+        ];
+    }
+
+    /**
+     * test_naturalNumber method
+     * @dataProvider dataProvider_naturalNumberAllowZero
+     * @return void
+     */
+    public function test_naturalNumberAllowZero($check, $allowZero, $expected)
+    {
+        $reault = ApollonValidation::naturalNumber($check, $allowZero);
+        $this->assertEquals($reault, $expected);
+    }
+    public function dataProvider_naturalNumberAllowZero()
+    {
+        return [
+            ['0', true, true],
+            ['-0', true, false],
+            ['0', false, false],
+            ['-0', false, false],
+        ];
     }
 
     /**
      * test_hiraganaOnly method
-     *
+     * @dataProvider dataProvider_hiraganaOnly
      * @return void
      */
-    public function test_hiraganaOnly()
+    public function test_hiraganaOnly($check, $expected)
     {
-        $this->assertTrue(ApollonValidation::hiraganaOnly('あいうえおー'));
-        $this->assertFalse(ApollonValidation::hiraganaOnly('あいうえおー　'));
-        $this->assertFalse(ApollonValidation::hiraganaOnly('aiueo'));
-        $this->assertFalse(ApollonValidation::hiraganaOnly('アイウエオー'));
-        $this->assertFalse(ApollonValidation::hiraganaOnly('アイウエオー　'));
-        $this->assertFalse(ApollonValidation::hiraganaOnly('あいうエオー'));
-        $this->assertFalse(ApollonValidation::hiraganaOnly('１２３４５６７８９０'));
-        $this->assertFalse(ApollonValidation::hiraganaOnly('ー＾￥「＠：」￥・；'));
+        $reault = ApollonValidation::hiraganaOnly($check);
+        $this->assertEquals($reault, $expected);
+    }
+    public function dataProvider_hiraganaOnly()
+    {
+        return [
+            ['', true],
+            ['あいうえおー', true],
+            ['ー', true],
+            [null, false],
+            [' ', false],
+            ['　', false],
+            ['アイウエオー', false],
+            ['アイウエオー　', false],
+            ['ｱｲｳｴｵｳﾞ', false],
+            ['亜伊宇衣於', false],
+            ['ＡＢＣＤＥ', false],
+            ['ａｂｃｄｅ', false],
+            ['ABCDE', false],
+            ['abcde', false],
+            ['あいうエオー', false],
+            ['１２３４５６７８９０', false],
+            ['ー＾￥「＠：」￥・；', false],
+            ['!"#$%&()*+,-.:;<=>?@[\]^_`{|}~', false],
+        ];
     }
 
     /**
      * test_hiraganaSpaceOnly method
-     *
+     * @dataProvider dataProvider_hiraganaSpaceOnly
      * @return void
      */
-    public function test_hiraganaSpaceOnly()
+    public function test_hiraganaSpaceOnly($check, $expected)
     {
-        $this->assertTrue(ApollonValidation::hiraganaSpaceOnly('あいうえおー'));
-        $this->assertTrue(ApollonValidation::hiraganaSpaceOnly('あいうえおー　'));
-        $this->assertFalse(ApollonValidation::hiraganaSpaceOnly('あいうえおー '));
-        $this->assertFalse(ApollonValidation::hiraganaSpaceOnly('aiueo'));
-        $this->assertFalse(ApollonValidation::hiraganaSpaceOnly('アイウエオー'));
-        $this->assertFalse(ApollonValidation::hiraganaSpaceOnly('アイウエオー　'));
-        $this->assertFalse(ApollonValidation::hiraganaSpaceOnly('アイウエオー '));
-        $this->assertFalse(ApollonValidation::hiraganaSpaceOnly('あいうエオー'));
-        $this->assertFalse(ApollonValidation::hiraganaSpaceOnly('１２３４５６７８９０'));
-        $this->assertFalse(ApollonValidation::hiraganaSpaceOnly('ー＾￥「＠：」￥・；'));
+        $reault = ApollonValidation::hiraganaSpaceOnly($check);
+        $this->assertEquals($reault, $expected);
+    }
+    public function dataProvider_hiraganaSpaceOnly()
+    {
+        return [
+            ['', true],
+            ['あいうえおー', true],
+            ['あいうえおー　', true],
+            ['ー', true],
+            ['　', true],
+            // 半角スペースは認めない
+            [' ', false],
+            ['あいうえおー ', false],
+            ['アイウエオー', false],
+            ['アイウエオー　', false],
+            ['ｱｲｳｴｵｳﾞ', false],
+            ['亜伊宇衣於', false],
+            ['ＡＢＣＤＥ', false],
+            ['ａｂｃｄｅ', false],
+            ['ABCDE', false],
+            ['abcde', false],
+            ['あいうエオー', false],
+            ['１２３４５６７８９０', false],
+            ['ー＾￥「＠：」￥・；', false],
+            ['!"#$%&()*+,-.:;<=>?@[\]^_`{|}~', false],
+        ];
     }
 
     /**
      * test_hiraganaAllSpaceOnly method
-     *
+     * @dataProvider dataProvider_hiraganaAllSpaceOnly
      * @return void
      */
-    public function test_hiraganaAllSpaceOnly()
+    public function test_hiraganaAllSpaceOnly($check, $expected)
     {
-        $this->assertTrue(ApollonValidation::hiraganaAllSpaceOnly('あいうえおー'));
-        $this->assertTrue(ApollonValidation::hiraganaAllSpaceOnly('あいうえおー　'));
-        $this->assertTrue(ApollonValidation::hiraganaAllSpaceOnly('あいうえおー '));
-        $this->assertFalse(ApollonValidation::hiraganaAllSpaceOnly('aiueo'));
-        $this->assertFalse(ApollonValidation::hiraganaAllSpaceOnly('アイウエオー'));
-        $this->assertFalse(ApollonValidation::hiraganaAllSpaceOnly('アイウエオー　'));
-        $this->assertFalse(ApollonValidation::hiraganaAllSpaceOnly('アイウエオー '));
-        $this->assertFalse(ApollonValidation::hiraganaAllSpaceOnly('あいうエオー'));
-        $this->assertFalse(ApollonValidation::hiraganaAllSpaceOnly('１２３４５６７８９０'));
-        $this->assertFalse(ApollonValidation::hiraganaAllSpaceOnly('ー＾￥「＠：」￥・；'));
+        $reault = ApollonValidation::hiraganaAllSpaceOnly($check);
+        $this->assertEquals($reault, $expected);
+    }
+    public function dataProvider_hiraganaAllSpaceOnly()
+    {
+        return [
+            ['', true],
+            ['あいうえおー', true],
+            ['あいうえおー　', true],
+            ['ー', true],
+            ['　', true],
+            // 半角スペースは認める
+            [' ', true],
+            ['あいうえおー ', true],
+            ['アイウエオー', false],
+            ['アイウエオー　', false],
+            ['ｱｲｳｴｵｳﾞ', false],
+            ['亜伊宇衣於', false],
+            ['ＡＢＣＤＥ', false],
+            ['ａｂｃｄｅ', false],
+            ['ABCDE', false],
+            ['abcde', false],
+            ['あいうエオー', false],
+            ['１２３４５６７８９０', false],
+            ['ー＾￥「＠：」￥・；', false],
+            ['!"#$%&()*+,-.:;<=>?@[\]^_`{|}~', false],
+        ];
     }
 
     /**
      * test_katakanaOnly method
-     *
+     * @dataProvider dataProvider_katakanaOnly
      * @return void
      */
-    public function test_katakanaOnly()
+    public function test_katakanaOnly($check, $expected)
     {
-        $this->assertFalse(ApollonValidation::katakanaOnly('あいうえおー'));
-        $this->assertFalse(ApollonValidation::katakanaOnly('あいうえおー　'));
-        $this->assertFalse(ApollonValidation::katakanaOnly('aiueo'));
-        $this->assertTrue(ApollonValidation::katakanaOnly('アイウエオー'));
-        $this->assertFalse(ApollonValidation::katakanaOnly('アイウエオー　'));
-        $this->assertFalse(ApollonValidation::katakanaOnly('あいうエオー'));
-        $this->assertFalse(ApollonValidation::katakanaOnly('１２３４５６７８９０'));
-        $this->assertFalse(ApollonValidation::katakanaOnly('ー＾￥「＠：」￥・；'));
+        $reault = ApollonValidation::katakanaOnly($check);
+        $this->assertEquals($reault, $expected);
+    }
+    public function dataProvider_katakanaOnly()
+    {
+        return [
+            ['', true],
+            ['アイウエオー', true],
+            ['ー', true],
+            [null, false],
+            [' ', false],
+            ['　', false],
+            ['アイウエオー ', false],
+            ['アイウエオー　', false],
+            ['あいうえおー', false],
+            ['ｱｲｳｴｵｳﾞ', false],
+            ['亜伊宇衣於', false],
+            ['ＡＢＣＤＥ', false],
+            ['ａｂｃｄｅ', false],
+            ['ABCDE', false],
+            ['abcde', false],
+            ['あいうエオー', false],
+            ['１２３４５６７８９０', false],
+            ['ー＾￥「＠：」￥・；', false],
+            ['!"#$%&()*+,-.:;<=>?@[\]^_`{|}~', false],
+        ];
     }
 
     /**
-     * test_katakanaSpaceOnly method
-     *
+     * test_katakanaOnly method
+     * @dataProvider dataProvider_katakanaSpaceOnly
      * @return void
      */
-    public function test_katakanaSpaceOnly()
+    public function test_katakanaSpaceOnly($check, $expected)
     {
-        $this->assertFalse(ApollonValidation::katakanaSpaceOnly('あいうえおー'));
-        $this->assertFalse(ApollonValidation::katakanaSpaceOnly('あいうえおー　'));
-        $this->assertFalse(ApollonValidation::katakanaSpaceOnly('あいうえおー '));
-        $this->assertFalse(ApollonValidation::katakanaSpaceOnly('aiueo'));
-        $this->assertTrue(ApollonValidation::katakanaSpaceOnly('アイウエオー'));
-        $this->assertTrue(ApollonValidation::katakanaSpaceOnly('アイウエオー　'));
-        $this->assertFalse(ApollonValidation::katakanaSpaceOnly('アイウエオー '));
-        $this->assertFalse(ApollonValidation::katakanaSpaceOnly('あいうエオー'));
-        $this->assertFalse(ApollonValidation::katakanaSpaceOnly('１２３４５６７８９０'));
-        $this->assertFalse(ApollonValidation::katakanaSpaceOnly('ー＾￥「＠：」￥・；'));
+        $reault = ApollonValidation::katakanaSpaceOnly($check);
+        $this->assertEquals($reault, $expected);
+    }
+    public function dataProvider_katakanaSpaceOnly()
+    {
+        return [
+            ['', true],
+            ['アイウエオー', true],
+            ['ー', true],
+            ['　', true],
+            ['アイウエオー　', true],
+            [null, false],
+            // 半角スペースは認めない
+            [' ', false],
+            ['アイウエオー ', false],
+            ['あいうえおー', false],
+            ['ｱｲｳｴｵｳﾞ', false],
+            ['亜伊宇衣於', false],
+            ['ＡＢＣＤＥ', false],
+            ['ａｂｃｄｅ', false],
+            ['ABCDE', false],
+            ['abcde', false],
+            ['あいうエオー', false],
+            ['１２３４５６７８９０', false],
+            ['ー＾￥「＠：」￥・；', false],
+            ['!"#$%&()*+,-.:;<=>?@[\]^_`{|}~', false],
+        ];
     }
 
     /**
      * test_katakanaAllSpaceOnly method
-     *
+     * @dataProvider dataProvider_katakanaAllSpaceOnly
      * @return void
      */
-    public function test_katakanaAllSpaceOnly()
+    public function test_katakanaAllSpaceOnly($check, $expected)
     {
-        $this->assertFalse(ApollonValidation::katakanaAllSpaceOnly('あいうえおー'));
-        $this->assertFalse(ApollonValidation::katakanaAllSpaceOnly('あいうえおー　'));
-        $this->assertFalse(ApollonValidation::katakanaAllSpaceOnly('あいうえおー '));
-        $this->assertFalse(ApollonValidation::katakanaAllSpaceOnly('aiueo'));
-        $this->assertTrue(ApollonValidation::katakanaAllSpaceOnly('アイウエオー'));
-        $this->assertTrue(ApollonValidation::katakanaAllSpaceOnly('アイウエオー　'));
-        $this->assertTrue(ApollonValidation::katakanaAllSpaceOnly('アイウエオー '));
-        $this->assertFalse(ApollonValidation::katakanaAllSpaceOnly('あいうエオー'));
-        $this->assertFalse(ApollonValidation::katakanaAllSpaceOnly('１２３４５６７８９０'));
-        $this->assertFalse(ApollonValidation::katakanaAllSpaceOnly('ー＾￥「＠：」￥・；'));
+        $reault = ApollonValidation::katakanaAllSpaceOnly($check);
+        $this->assertEquals($reault, $expected);
+    }
+    public function dataProvider_katakanaAllSpaceOnly()
+    {
+        return [
+            ['', true],
+            ['アイウエオー', true],
+            ['ー', true],
+            ['　', true],
+            ['アイウエオー　', true],
+            // 半角スペースは認める
+            [' ', true],
+            ['アイウエオー ', true],
+            [null, false],
+            ['あいうえおー', false],
+            ['ｱｲｳｴｵｳﾞ', false],
+            ['亜伊宇衣於', false],
+            ['ＡＢＣＤＥ', false],
+            ['ａｂｃｄｅ', false],
+            ['ABCDE', false],
+            ['abcde', false],
+            ['あいうエオー', false],
+            ['１２３４５６７８９０', false],
+            ['ー＾￥「＠：」￥・；', false],
+            ['!"#$%&()*+,-.:;<=>?@[\]^_`{|}~', false],
+        ];
     }
 
     /**
      * test_zenkakuOnly method
-     *
+     * @dataProvider dataProvider_zenkakuOnly
      * @return void
      */
-    public function test_zenkakuOnly()
+    public function test_zenkakuOnly($check, $expected)
     {
-        $this->assertTrue(ApollonValidation::zenkakuOnly('あいうえおー'));
-        $this->assertTrue(ApollonValidation::zenkakuOnly('あいうえおー　'));
-        $this->assertFalse(ApollonValidation::zenkakuOnly('aiueo'));
-        $this->assertTrue(ApollonValidation::zenkakuOnly('アイウエオー'));
-        $this->assertTrue(ApollonValidation::zenkakuOnly('アイウエオー　'));
-        $this->assertTrue(ApollonValidation::zenkakuOnly('あいうエオー'));
-        $this->assertTrue(ApollonValidation::zenkakuOnly('１２３４５６７８９０'));
-        $this->assertTrue(ApollonValidation::zenkakuOnly('ー＾￥「＠：」￥・；'));
+        $reault = ApollonValidation::zenkakuOnly($check);
+        $this->assertEquals($reault, $expected);
+    }
+    public function dataProvider_zenkakuOnly()
+    {
+        return [
+            ['', true],
+            [null, true],
+            ['あいうえおー', true],
+            ['あいうえおー　', true],
+            ['　', true],
+            ['アイウエオー', true],
+            ['アイウエオー　', true],
+            ['あいうエオー', true],
+            ['１２３４５６７８９０', true],
+            ['ー＾￥「＠：」￥・；', true],
+            ['ＡＢＣＤＥ', true],
+            ['ａｂｃｄｅ', true],
+            ['亜伊宇衣於', true],
+            [' ', false],
+            ['01234', false],
+            ['ABCDE', false],
+            ['abcde', false],
+            ['ｱｲｳｴｵｳﾞ', false],
+        ];
     }
 
     /**
      * test_spaceOnly method
-     *
+     * @dataProvider dataProvider_spaceOnly
      * @return void
      */
-    public function test_spaceOnly()
+    public function test_spaceOnly($check, $expected)
     {
-        $this->assertFalse(ApollonValidation::spaceOnly('　'));
-        $this->assertFalse(ApollonValidation::spaceOnly(' '));
-        $this->assertTrue(ApollonValidation::spaceOnly('a '));
-        $this->assertTrue(ApollonValidation::spaceOnly('a　'));
+        $reault = ApollonValidation::spaceOnly($check);
+        $this->assertEquals($reault, $expected);
+    }
+    public function dataProvider_spaceOnly()
+    {
+        return [
+            [' ', false],
+            ['　', false],
+            ['', true],
+            ['a', true],
+            ['a ', true],
+            [null, true],
+        ];
     }
 
     /**
      * test_hankakukatakanaOnly method
-     *
+     * @dataProvider dataProvider_hankakukatakanaOnly
      * @return void
      */
-    public function test_hankakukatakanaOnly()
+    public function test_hankakukatakanaOnly($check, $expected)
     {
-        $this->assertFalse(ApollonValidation::hankakukatakanaOnly('あいうえおー'));
-        $this->assertFalse(ApollonValidation::hankakukatakanaOnly('あいうえおー　'));
-        $this->assertFalse(ApollonValidation::hankakukatakanaOnly('aiueo'));
-        $this->assertFalse(ApollonValidation::hankakukatakanaOnly('ＡＢＣＤＥ'));
-        $this->assertTrue(ApollonValidation::hankakukatakanaOnly('ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜｦﾝｧｨｩｪｫｬｭｮｯｰﾞﾟ'));
-        $this->assertFalse(ApollonValidation::hankakukatakanaOnly('ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜｦﾝｧｨｩｪｫｬｭｮｯｰﾞﾟ｡｢｣､･'));
-        $this->assertFalse(ApollonValidation::hankakukatakanaOnly('あいうエオー'));
-        $this->assertFalse(ApollonValidation::hankakukatakanaOnly('１２３４５６７８９０'));
-        $this->assertFalse(ApollonValidation::hankakukatakanaOnly('1234567890'));
-        $this->assertFalse(ApollonValidation::hankakukatakanaOnly('１２３４５67890'));
-        $this->assertFalse(ApollonValidation::hankakukatakanaOnly('ー＾￥「＠：」￥・；'));
+        $reault = ApollonValidation::hankakukatakanaOnly($check);
+        $this->assertEquals($reault, $expected);
+    }
+    public function dataProvider_hankakukatakanaOnly()
+    {
+        return [
+            ['', true],
+            ['ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜｦﾝｧｨｩｪｫｬｭｮｯｰﾞﾟ', true],
+            [null, false],
+            [' ', false],
+            ['　', false],
+            ['ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜｦﾝｧｨｩｪｫｬｭｮｯｰﾞﾟ｡｢｣､･', false],
+            ['アイウエオー', false],
+            ['あいうえおー', false],
+            ['1234567890', false],
+            ['１２３４５６７８９０', false],
+            ['ー＾￥「＠：」￥・；', false],
+            ['!"#$%&()*+,-.:;<=>?@[\]^_`{|}~', false],
+            ['ＡＢＣＤＥ', false],
+            ['ａｂｃｄｅ', false],
+            ['亜伊宇衣於', false],
+        ];
     }
 
     /**
      * test_hankakukatakanaSpaceOnly method
-     *
+     * @dataProvider dataProvider_hankakukatakanaSpaceOnly
      * @return void
      */
-    public function test_hankakukatakanaSpaceOnly()
+    public function test_hankakukatakanaSpaceOnly($check, $expected)
     {
-        $this->assertFalse(ApollonValidation::hankakukatakanaSpaceOnly('あいうえおー'));
-        $this->assertFalse(ApollonValidation::hankakukatakanaSpaceOnly('あいうえおー　'));
-        $this->assertFalse(ApollonValidation::hankakukatakanaSpaceOnly('aiueo'));
-        $this->assertFalse(ApollonValidation::hankakukatakanaSpaceOnly('ＡＢＣＤＥ'));
-        $this->assertTrue(ApollonValidation::hankakukatakanaSpaceOnly('ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜｦﾝｧｨｩｪｫｬｭｮｯｰﾞﾟ '));
-        $this->assertFalse(ApollonValidation::hankakukatakanaSpaceOnly('ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜｦﾝｧｨｩｪｫｬｭｮｯｰﾞﾟ｡｢｣､･ '));
-        $this->assertFalse(ApollonValidation::hankakukatakanaSpaceOnly('あいうエオー'));
-        $this->assertFalse(ApollonValidation::hankakukatakanaSpaceOnly('１２３４５６７８９０'));
-        $this->assertFalse(ApollonValidation::hankakukatakanaSpaceOnly('1234567890'));
-        $this->assertFalse(ApollonValidation::hankakukatakanaSpaceOnly('１２３４５67890'));
-        $this->assertFalse(ApollonValidation::hankakukatakanaSpaceOnly('ー＾￥「＠：」￥・；'));
+        $reault = ApollonValidation::hankakukatakanaSpaceOnly($check);
+        $this->assertEquals($reault, $expected);
+    }
+    public function dataProvider_hankakukatakanaSpaceOnly()
+    {
+        return [
+            ['', true],
+            [' ', true],
+            ['ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜｦﾝｧｨｩｪｫｬｭｮｯｰﾞﾟ', true],
+            ['ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜｦﾝｧｨｩｪｫｬｭｮｯｰﾞﾟ ', true],
+            [null, false],
+            ['　', false],
+            ['ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜｦﾝｧｨｩｪｫｬｭｮｯｰﾞﾟ｡｢｣､･', false],
+            ['アイウエオー', false],
+            ['あいうえおー', false],
+            ['1234567890', false],
+            ['１２３４５６７８９０', false],
+            ['ー＾￥「＠：」￥・；', false],
+            ['!"#$%&()*+,-.:;<=>?@[\]^_`{|}~', false],
+            ['ＡＢＣＤＥ', false],
+            ['ａｂｃｄｅ', false],
+            ['亜伊宇衣於', false],
+        ];
     }
 
     /**
      * test_phone method
-     *
+     * @dataProvider dataProvider_phone
      * @return void
      */
-    public function test_phone()
+    public function test_phone($check, $expected)
     {
-        $this->assertTrue(ApollonValidation::phone('1234-5678-9012'));
-        $this->assertTrue(ApollonValidation::phone('123456789012'));
-        $this->assertFalse(ApollonValidation::phone('0-1-2'));
-        $this->assertFalse(ApollonValidation::phone('0あ-1-2'));
-        $this->assertFalse(ApollonValidation::phone('0a-1-2'));
+        $reault = ApollonValidation::phone($check);
+        $this->assertEquals($reault, $expected);
+    }
+    public function dataProvider_phone()
+    {
+        return [
+            ['12-1234-1234', true],
+            ['1212341234', true],
+            ['123-1234-1234', true],
+            ['12312341234', true],
+            ['1234-1234-1234', true],
+            ['123412341234', true],
+            ['12345-1234-1234', true],
+            ['1234512341234', true],
+            ['00000-1234-1234', true],
+            ['0000012341234', true],
+            ['12345-1-1234', true],
+            ['1234511234', true],
+            ['12345-12-1234', true],
+            ['12345121234', true],
+            ['12345-123-1234', true],
+            ['123451231234', true],
+            ['12345-1234-1234', true],
+            ['1234512341234', true],
+            ['12345-1234', true],
+            ['123451234', true],
+            ['12-112345', true],
+            ['1234-112345', true],
+            ['12345-12345', true],
+            ['1234512345', true],
+            ['112341234', true],
+            ['1-112345', false],
+            ['1-1234-1234', false],
+            ['123456-1234-1234', false],
+            ['12345612341234', false],
+            ['12345-12345-1234', false],
+            ['12345123451234', false],
+            ['１２-３４５６-７８９０', false],
+            ['アイウエオー', false],
+            ['あいうえおー', false],
+            ['ー＾￥「＠：」￥・；', false],
+            ['!"#$%&()*+,-.:;<=>?@[\]^_`{|}~', false],
+            ['ＡＢＣＤＥ', false],
+            ['ａｂｃｄｅ', false],
+            ['亜伊宇衣於', false],
+            [null, false],
+            [' ', false],
+            ['　', false],
+        ];
     }
 
     /**
      * test_phone1 method
-     *
+     * @dataProvider dataProvider_phone1
      * @return void
      */
-    public function test_phone1()
+    public function test_phone1($check, $expected)
     {
-        $this->assertTrue(ApollonValidation::phone1('12345'));
-        $this->assertTrue(ApollonValidation::phone1('1234'));
-        $this->assertTrue(ApollonValidation::phone1('123'));
-        $this->assertTrue(ApollonValidation::phone1('12'));
-        $this->assertFalse(ApollonValidation::phone1('1'));
-        $this->assertFalse(ApollonValidation::phone1('a'));
-        $this->assertFalse(ApollonValidation::phone1('あ'));
+        $reault = ApollonValidation::phone1($check);
+        $this->assertEquals($reault, $expected);
+    }
+    public function dataProvider_phone1()
+    {
+        return [
+            ['12', true],
+            ['123', true],
+            ['1234', true],
+            ['12345', true],
+            ['1', false],
+            ['123456', false],
+            ['１２-３４５６-７８９０', false],
+            ['アイウエオー', false],
+            ['あいうえおー', false],
+            ['ー＾￥「＠：」￥・；', false],
+            ['!"#$%&()*+,-.:;<=>?@[\]^_`{|}~', false],
+            ['ＡＢＣＤＥ', false],
+            ['ａｂｃｄｅ', false],
+            ['亜伊宇衣於', false],
+            [null, false],
+            [' ', false],
+            ['　', false],
+        ];
     }
 
     /**
      * test_phone2 method
-     *
+     * @dataProvider dataProvider_phone2
      * @return void
      */
-    public function test_phone2()
+    public function test_phone2($check, $expected)
     {
-        $this->assertTrue(ApollonValidation::phone2('1234'));
-        $this->assertTrue(ApollonValidation::phone2('123'));
-        $this->assertTrue(ApollonValidation::phone2('12'));
-        $this->assertFalse(ApollonValidation::phone2('1'));
-        $this->assertFalse(ApollonValidation::phone2('a'));
-        $this->assertFalse(ApollonValidation::phone2('あ'));
+        $reault = ApollonValidation::phone2($check);
+        $this->assertEquals($reault, $expected);
+    }
+    public function dataProvider_phone2()
+    {
+        return [
+            ['12', true],
+            ['123', true],
+            ['1234', true],
+            ['1', false],
+            ['12345', false],
+            ['１２-３４５６-７８９０', false],
+            ['アイウエオー', false],
+            ['あいうえおー', false],
+            ['ー＾￥「＠：」￥・；', false],
+            ['!"#$%&()*+,-.:;<=>?@[\]^_`{|}~', false],
+            ['ＡＢＣＤＥ', false],
+            ['ａｂｃｄｅ', false],
+            ['亜伊宇衣於', false],
+            [null, false],
+            [' ', false],
+            ['　', false],
+        ];
     }
 
     /**
      * test_phone3 method
-     *
+     * @dataProvider dataProvider_phone3
      * @return void
      */
-    public function test_phone3()
+    public function test_phone3($check, $expected)
     {
-        $this->assertTrue(ApollonValidation::phone3('1234'));
-        $this->assertFalse(ApollonValidation::phone3('123'));
-        $this->assertFalse(ApollonValidation::phone3('12'));
-        $this->assertFalse(ApollonValidation::phone3('1'));
-        $this->assertFalse(ApollonValidation::phone3('a'));
-        $this->assertFalse(ApollonValidation::phone3('あ'));
+        $reault = ApollonValidation::phone3($check);
+        $this->assertEquals($reault, $expected);
+    }
+    public function dataProvider_phone3()
+    {
+        return [
+            ['1234', true],
+            ['123', false],
+            ['12345', false],
+            ['１２-３４５６-７８９０', false],
+            ['アイウエオー', false],
+            ['あいうえおー', false],
+            ['ー＾￥「＠：」￥・；', false],
+            ['!"#$%&()*+,-.:;<=>?@[\]^_`{|}~', false],
+            ['ＡＢＣＤＥ', false],
+            ['ａｂｃｄｅ', false],
+            ['亜伊宇衣於', false],
+            [null, false],
+            [' ', false],
+            ['　', false],
+        ];
     }
 
     /**
      * test_emailNonRfc method
-     *
+     * @dataProvider dataProvider_emailNonRfc
      * @return void
      */
-    public function test_emailNonRfc()
+    public function test_emailNonRfc($check, $expected)
     {
-        $this->assertTrue(ApollonValidation::emailNonRfc('tomonori..shimada@example.jp'));
-        $this->assertTrue(ApollonValidation::emailNonRfc('tomonori.shimada.@example.jp'));
-        $this->assertTrue(ApollonValidation::emailNonRfc('tomonori+shimada@example.jp'));
-        $this->assertFalse(ApollonValidation::emailNonRfc('tomonori.shimada＠example.jp'));
-        $this->assertFalse(ApollonValidation::emailNonRfc('tomonori@shimada@example.jp'));
+        $reault = ApollonValidation::emailNonRfc($check);
+        $this->assertEquals($reault, $expected);
+    }
+    public function dataProvider_emailNonRfc()
+    {
+        return [
+            ['tomonori..shimada@example.jp', true],
+            ['tomonori.shimada.@example.jp', true],
+            ['tomonori+shimada@example.jp', true],
+            ['tomonori.shimada＠example.jp', false],
+            ['tomonori@shimada@example.jp', false],
+            ['', false],
+            [' ', false],
+            [null, false],
+            ['あtomonori..shimada@example.jp', false],
+            ['アtomonori..shimada@example.jp', false],
+            [' tomonori..shimada@example.jp', false],
+            [' tomonori..shimada@example.AA', false],
+        ];
     }
 
     /**
-     * test_datetimeComparison method
-     *
+     * test_datetimeComparison1 method
+     * @dataProvider dataProvider_datetimeComparison
      * @return void
      */
-    public function test_datetimeComparison()
+    public function test_datetimeComparison1($check, $expected)
     {
-        $check1 = 'date1';
-        $check2 = 'date2';
-        $context1 = [
+        $context = [
             'data' => [
                 'date1' => [
                     'year' => 2016,
@@ -541,13 +920,45 @@ class ApollonValidationTest extends TestCase
                 ],
             ],
         ];
-        $context2 = [
+        $reault = ApollonValidation::datetimeComparison(
+            $context['data']['date1'],
+            $check,
+            'date2',
+            $context
+        );
+        $this->assertEquals($reault, $expected);
+    }
+
+    /**
+     * test_datetimeComparison2 method
+     * @dataProvider dataProvider_datetimeComparison
+     * @return void
+     */
+    public function test_datetimeComparison2($check, $expected)
+    {
+        $context = [
             'data' => [
                 'date1' => '2016-8-5',
                 'date2' => '2016-8-5',
             ],
         ];
-        $context3 = [
+        $reault = ApollonValidation::datetimeComparison(
+            $context['data']['date1'],
+            $check,
+            'date2',
+            $context
+        );
+        $this->assertEquals($reault, $expected);
+    }
+
+    /**
+     * test_datetimeComparison3 method
+     * @dataProvider dataProvider_datetimeComparison
+     * @return void
+     */
+    public function test_datetimeComparison3($check, $expected)
+    {
+        $context = [
             'data' => [
                 'date1' => [
                     'year' => 2016,
@@ -567,13 +978,45 @@ class ApollonValidationTest extends TestCase
                 ],
             ],
         ];
-        $context4 = [
+        $reault = ApollonValidation::datetimeComparison(
+            $context['data']['date1'],
+            $check,
+            'date2',
+            $context
+        );
+        $this->assertEquals($reault, $expected);
+    }
+
+    /**
+     * test_datetimeComparison4 method
+     * @dataProvider dataProvider_datetimeComparison
+     * @return void
+     */
+    public function test_datetimeComparison4($check, $expected)
+    {
+        $context = [
             'data' => [
                 'date1' => '2016-8-5 9:30:0',
                 'date2' => '2016-8-5 9:30:0',
             ],
         ];
-        $context5 = [
+        $reault = ApollonValidation::datetimeComparison(
+            $context['data']['date1'],
+            $check,
+            'date2',
+            $context
+        );
+        $this->assertEquals($reault, $expected);
+    }
+
+    /**
+     * test_datetimeComparison5 method
+     * @dataProvider dataProvider_datetimeComparisonRevert
+     * @return void
+     */
+    public function test_datetimeComparison5($check, $expected)
+    {
+        $context = [
             'data' => [
                 'date1' => [
                     'year' => 2016,
@@ -587,13 +1030,45 @@ class ApollonValidationTest extends TestCase
                 ],
             ],
         ];
-        $context6 = [
+        $reault = ApollonValidation::datetimeComparison(
+            $context['data']['date1'],
+            $check,
+            'date2',
+            $context
+        );
+        $this->assertEquals($reault, $expected);
+    }
+
+    /**
+     * test_datetimeComparison6 method
+     * @dataProvider dataProvider_datetimeComparisonRevert
+     * @return void
+     */
+    public function test_datetimeComparison6($check, $expected)
+    {
+        $context = [
             'data' => [
                 'date1' => '2016-8-5',
                 'date2' => '2016-8-6',
             ],
         ];
-        $context7 = [
+        $reault = ApollonValidation::datetimeComparison(
+            $context['data']['date1'],
+            $check,
+            'date2',
+            $context
+        );
+        $this->assertEquals($reault, $expected);
+    }
+
+    /**
+     * test_datetimeComparison7 method
+     * @dataProvider dataProvider_datetimeComparisonRevert
+     * @return void
+     */
+    public function test_datetimeComparison7($check, $expected)
+    {
+        $context = [
             'data' => [
                 'date1' => [
                     'year' => 2016,
@@ -613,115 +1088,70 @@ class ApollonValidationTest extends TestCase
                 ],
             ],
         ];
-        $context8 = [
+        $reault = ApollonValidation::datetimeComparison(
+            $context['data']['date1'],
+            $check,
+            'date2',
+            $context
+        );
+        $this->assertEquals($reault, $expected);
+    }
+
+    /**
+     * test_datetimeComparison8 method
+     * @dataProvider dataProvider_datetimeComparisonRevert
+     * @return void
+     */
+    public function test_datetimeComparison8($check, $expected)
+    {
+        $context = [
             'data' => [
                 'date1' => '2016-8-5 9:30:0',
                 'date2' => '2016-8-5 9:30:1',
             ],
         ];
+        $reault = ApollonValidation::datetimeComparison(
+            $context['data']['date1'],
+            $check,
+            'date2',
+            $context
+        );
+        $this->assertEquals($reault, $expected);
+    }
 
-        $this->assertFalse(ApollonValidation::datetimeComparison($context1['data'][$check1], 'isgreater', $check2, $context1));
-        $this->assertFalse(ApollonValidation::datetimeComparison($context1['data'][$check1], '>', $check2, $context1));
-        $this->assertFalse(ApollonValidation::datetimeComparison($context1['data'][$check1], 'isless', $check2, $context1));
-        $this->assertFalse(ApollonValidation::datetimeComparison($context1['data'][$check1], '<', $check2, $context1));
-        $this->assertTrue(ApollonValidation::datetimeComparison($context1['data'][$check1], 'greaterorequal', $check2, $context1));
-        $this->assertTrue(ApollonValidation::datetimeComparison($context1['data'][$check1], '>=', $check2, $context1));
-        $this->assertTrue(ApollonValidation::datetimeComparison($context1['data'][$check1], 'lessorequal', $check2, $context1));
-        $this->assertTrue(ApollonValidation::datetimeComparison($context1['data'][$check1], '<=', $check2, $context1));
-        $this->assertTrue(ApollonValidation::datetimeComparison($context1['data'][$check1], 'equalto', $check2, $context1));
-        $this->assertTrue(ApollonValidation::datetimeComparison($context1['data'][$check1], '==', $check2, $context1));
-        $this->assertFalse(ApollonValidation::datetimeComparison($context1['data'][$check1], 'notequal', $check2, $context1));
-        $this->assertFalse(ApollonValidation::datetimeComparison($context1['data'][$check1], '!=', $check2, $context1));
+    public function dataProvider_datetimeComparison()
+    {
+        return [
+            ['greaterorequal', true],
+            ['>=',true],
+            ['lessorequal', true],
+            ['<=',true],
+            ['equalto',true],
+            ['==',true],
+            ['isgreater', false],
+            ['<',false],
+            ['>',false],
+            ['isless', false],
+            ['notequal',false],
+            ['!=',false],
+        ];
+    }
 
-        $this->assertFalse(ApollonValidation::datetimeComparison($context2['data'][$check1], 'isgreater', $check2, $context2));
-        $this->assertFalse(ApollonValidation::datetimeComparison($context2['data'][$check1], '>', $check2, $context2));
-        $this->assertFalse(ApollonValidation::datetimeComparison($context2['data'][$check1], 'isless', $check2, $context2));
-        $this->assertFalse(ApollonValidation::datetimeComparison($context2['data'][$check1], '<', $check2, $context2));
-        $this->assertTrue(ApollonValidation::datetimeComparison($context2['data'][$check1], 'greaterorequal', $check2, $context2));
-        $this->assertTrue(ApollonValidation::datetimeComparison($context2['data'][$check1], '>=', $check2, $context2));
-        $this->assertTrue(ApollonValidation::datetimeComparison($context2['data'][$check1], 'lessorequal', $check2, $context2));
-        $this->assertTrue(ApollonValidation::datetimeComparison($context2['data'][$check1], '<=', $check2, $context2));
-        $this->assertTrue(ApollonValidation::datetimeComparison($context2['data'][$check1], 'equalto', $check2, $context2));
-        $this->assertTrue(ApollonValidation::datetimeComparison($context2['data'][$check1], '==', $check2, $context2));
-        $this->assertFalse(ApollonValidation::datetimeComparison($context2['data'][$check1], 'notequal', $check2, $context2));
-        $this->assertFalse(ApollonValidation::datetimeComparison($context2['data'][$check1], '!=', $check2, $context2));
-
-        $this->assertFalse(ApollonValidation::datetimeComparison($context3['data'][$check1], 'isgreater', $check2, $context3));
-        $this->assertFalse(ApollonValidation::datetimeComparison($context3['data'][$check1], '>', $check2, $context3));
-        $this->assertFalse(ApollonValidation::datetimeComparison($context3['data'][$check1], 'isless', $check2, $context3));
-        $this->assertFalse(ApollonValidation::datetimeComparison($context3['data'][$check1], '<', $check2, $context3));
-        $this->assertTrue(ApollonValidation::datetimeComparison($context3['data'][$check1], 'greaterorequal', $check2, $context3));
-        $this->assertTrue(ApollonValidation::datetimeComparison($context3['data'][$check1], '>=', $check2, $context3));
-        $this->assertTrue(ApollonValidation::datetimeComparison($context3['data'][$check1], 'lessorequal', $check2, $context3));
-        $this->assertTrue(ApollonValidation::datetimeComparison($context3['data'][$check1], '<=', $check2, $context3));
-        $this->assertTrue(ApollonValidation::datetimeComparison($context3['data'][$check1], 'equalto', $check2, $context3));
-        $this->assertTrue(ApollonValidation::datetimeComparison($context3['data'][$check1], '==', $check2, $context3));
-        $this->assertFalse(ApollonValidation::datetimeComparison($context3['data'][$check1], 'notequal', $check2, $context3));
-        $this->assertFalse(ApollonValidation::datetimeComparison($context3['data'][$check1], '!=', $check2, $context3));
-
-        $this->assertFalse(ApollonValidation::datetimeComparison($context4['data'][$check1], 'isgreater', $check2, $context4));
-        $this->assertFalse(ApollonValidation::datetimeComparison($context4['data'][$check1], '>', $check2, $context4));
-        $this->assertFalse(ApollonValidation::datetimeComparison($context4['data'][$check1], 'isless', $check2, $context4));
-        $this->assertFalse(ApollonValidation::datetimeComparison($context4['data'][$check1], '<', $check2, $context4));
-        $this->assertTrue(ApollonValidation::datetimeComparison($context4['data'][$check1], 'greaterorequal', $check2, $context4));
-        $this->assertTrue(ApollonValidation::datetimeComparison($context4['data'][$check1], '>=', $check2, $context4));
-        $this->assertTrue(ApollonValidation::datetimeComparison($context4['data'][$check1], 'lessorequal', $check2, $context4));
-        $this->assertTrue(ApollonValidation::datetimeComparison($context4['data'][$check1], '<=', $check2, $context4));
-        $this->assertTrue(ApollonValidation::datetimeComparison($context4['data'][$check1], 'equalto', $check2, $context4));
-        $this->assertTrue(ApollonValidation::datetimeComparison($context4['data'][$check1], '==', $check2, $context4));
-        $this->assertFalse(ApollonValidation::datetimeComparison($context4['data'][$check1], 'notequal', $check2, $context4));
-        $this->assertFalse(ApollonValidation::datetimeComparison($context4['data'][$check1], '!=', $check2, $context4));
-
-        $this->assertFalse(ApollonValidation::datetimeComparison($context5['data'][$check1], 'isgreater', $check2, $context5));
-        $this->assertFalse(ApollonValidation::datetimeComparison($context5['data'][$check1], '>', $check2, $context5));
-        $this->assertTrue(ApollonValidation::datetimeComparison($context5['data'][$check1], 'isless', $check2, $context5));
-        $this->assertTrue(ApollonValidation::datetimeComparison($context5['data'][$check1], '<', $check2, $context5));
-        $this->assertFalse(ApollonValidation::datetimeComparison($context5['data'][$check1], 'greaterorequal', $check2, $context5));
-        $this->assertFalse(ApollonValidation::datetimeComparison($context5['data'][$check1], '>=', $check2, $context5));
-        $this->assertTrue(ApollonValidation::datetimeComparison($context5['data'][$check1], 'lessorequal', $check2, $context5));
-        $this->assertTrue(ApollonValidation::datetimeComparison($context5['data'][$check1], '<=', $check2, $context5));
-        $this->assertFalse(ApollonValidation::datetimeComparison($context5['data'][$check1], 'equalto', $check2, $context5));
-        $this->assertFalse(ApollonValidation::datetimeComparison($context5['data'][$check1], '==', $check2, $context5));
-        $this->assertTrue(ApollonValidation::datetimeComparison($context5['data'][$check1], 'notequal', $check2, $context5));
-        $this->assertTrue(ApollonValidation::datetimeComparison($context5['data'][$check1], '!=', $check2, $context5));
-
-        $this->assertFalse(ApollonValidation::datetimeComparison($context6['data'][$check1], 'isgreater', $check2, $context6));
-        $this->assertFalse(ApollonValidation::datetimeComparison($context6['data'][$check1], '>', $check2, $context6));
-        $this->assertTrue(ApollonValidation::datetimeComparison($context6['data'][$check1], 'isless', $check2, $context6));
-        $this->assertTrue(ApollonValidation::datetimeComparison($context6['data'][$check1], '<', $check2, $context6));
-        $this->assertFalse(ApollonValidation::datetimeComparison($context6['data'][$check1], 'greaterorequal', $check2, $context6));
-        $this->assertFalse(ApollonValidation::datetimeComparison($context6['data'][$check1], '>=', $check2, $context6));
-        $this->assertTrue(ApollonValidation::datetimeComparison($context6['data'][$check1], 'lessorequal', $check2, $context6));
-        $this->assertTrue(ApollonValidation::datetimeComparison($context6['data'][$check1], '<=', $check2, $context6));
-        $this->assertFalse(ApollonValidation::datetimeComparison($context6['data'][$check1], 'equalto', $check2, $context6));
-        $this->assertFalse(ApollonValidation::datetimeComparison($context6['data'][$check1], '==', $check2, $context6));
-        $this->assertTrue(ApollonValidation::datetimeComparison($context6['data'][$check1], 'notequal', $check2, $context6));
-        $this->assertTrue(ApollonValidation::datetimeComparison($context6['data'][$check1], '!=', $check2, $context6));
-
-        $this->assertFalse(ApollonValidation::datetimeComparison($context7['data'][$check1], 'isgreater', $check2, $context7));
-        $this->assertFalse(ApollonValidation::datetimeComparison($context7['data'][$check1], '>', $check2, $context7));
-        $this->assertTrue(ApollonValidation::datetimeComparison($context7['data'][$check1], 'isless', $check2, $context7));
-        $this->assertTrue(ApollonValidation::datetimeComparison($context7['data'][$check1], '<', $check2, $context7));
-        $this->assertFalse(ApollonValidation::datetimeComparison($context7['data'][$check1], 'greaterorequal', $check2, $context7));
-        $this->assertFalse(ApollonValidation::datetimeComparison($context7['data'][$check1], '>=', $check2, $context7));
-        $this->assertTrue(ApollonValidation::datetimeComparison($context7['data'][$check1], 'lessorequal', $check2, $context7));
-        $this->assertTrue(ApollonValidation::datetimeComparison($context7['data'][$check1], '<=', $check2, $context7));
-        $this->assertFalse(ApollonValidation::datetimeComparison($context7['data'][$check1], 'equalto', $check2, $context7));
-        $this->assertFalse(ApollonValidation::datetimeComparison($context7['data'][$check1], '==', $check2, $context7));
-        $this->assertTrue(ApollonValidation::datetimeComparison($context7['data'][$check1], 'notequal', $check2, $context7));
-        $this->assertTrue(ApollonValidation::datetimeComparison($context7['data'][$check1], '!=', $check2, $context7));
-
-        $this->assertFalse(ApollonValidation::datetimeComparison($context8['data'][$check1], 'isgreater', $check2, $context8));
-        $this->assertFalse(ApollonValidation::datetimeComparison($context8['data'][$check1], '>', $check2, $context8));
-        $this->assertTrue(ApollonValidation::datetimeComparison($context8['data'][$check1], 'isless', $check2, $context8));
-        $this->assertTrue(ApollonValidation::datetimeComparison($context8['data'][$check1], '<', $check2, $context8));
-        $this->assertFalse(ApollonValidation::datetimeComparison($context8['data'][$check1], 'greaterorequal', $check2, $context8));
-        $this->assertFalse(ApollonValidation::datetimeComparison($context8['data'][$check1], '>=', $check2, $context8));
-        $this->assertTrue(ApollonValidation::datetimeComparison($context8['data'][$check1], 'lessorequal', $check2, $context8));
-        $this->assertTrue(ApollonValidation::datetimeComparison($context8['data'][$check1], '<=', $check2, $context8));
-        $this->assertFalse(ApollonValidation::datetimeComparison($context8['data'][$check1], 'equalto', $check2, $context8));
-        $this->assertFalse(ApollonValidation::datetimeComparison($context8['data'][$check1], '==', $check2, $context8));
-        $this->assertTrue(ApollonValidation::datetimeComparison($context8['data'][$check1], 'notequal', $check2, $context8));
-        $this->assertTrue(ApollonValidation::datetimeComparison($context8['data'][$check1], '!=', $check2, $context8));
+    public function dataProvider_datetimeComparisonRevert()
+    {
+        return [
+            ['greaterorequal', false],
+            ['>=',false],
+            ['lessorequal', true],
+            ['<=',true],
+            ['equalto',false],
+            ['==',false],
+            ['isgreater', false],
+            ['<',true],
+            ['isless', true],
+            ['>',false],
+            ['notequal',true],
+            ['!=',true],
+        ];
     }
 }
