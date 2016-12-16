@@ -87,6 +87,168 @@ class ApollonValidationTest extends TestCase
     }
 
     /**
+     * test_alphaNumeric
+     * @dataProvider dataProvider_alphaNumeric
+     * @return void
+     */
+    public function test_alphaNumeric($check, $expected)
+    {
+        $reault = ApollonValidation::alphaNumeric($check);
+        $this->assertEquals($reault, $expected);
+    }
+    public function dataProvider_alphaNumeric()
+    {
+        return [
+            // 半角英字小文字
+            ['abcdefghijklmnopqrstuvwxyz', true],
+            // 半角英字大文字
+            ['ABCDEFGHIJKLMNOPQRSTUVWXYZ', true],
+            // 半角数値(文字列)
+            ['0123456789', true],
+            // 半角数値(数値)
+            [1234567890, true],
+            // 半角数値(0)
+            [0, true],
+            // 半角英字小文字 + 半角英字大文字
+            ['abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', true],
+            // 半角英字小文字 + 半角英字大文字 + 半角数字
+            ['abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890', true],
+            // 全角英字小文字
+            ['ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚ', false],
+            // 全角英字大文字
+            ['ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ', false],
+            // 全角数値大文字
+            ['０１２３４５６７８９', false],
+            // 半角数値(マイナス)
+            [-1234567890, false],
+            // 全角ひらがな
+            ['あいうえおかきくけこ', false],
+            // 全角カタカナ
+            ['アイウエオカキクケコ', false],
+            // 半角カタカナ
+            ['ｱｲｳｴｵｳﾞ', false],
+            // 全角スペース
+            ['　', false],
+            // 半角スペース
+            [' ', false],
+            // 記号
+            ['!', false],
+            ['"', false],
+            ['#', false],
+            ['$', false],
+            ['%', false],
+            ['&', false],
+            ["'", false],
+            ['(', false],
+            [')', false],
+            ['*', false],
+            ['+', false],
+            [',', false],
+            ['-', false],
+            ['.', false],
+            ['/', false],
+            [':', false],
+            [';', false],
+            ['<', false],
+            ['=', false],
+            ['>', false],
+            ['?', false],
+            ['@', false],
+            ['[', false],
+            ['\\', false],
+            [']', false],
+            ['^', false],
+            ['_', false],
+            ['`', false],
+            ['{', false],
+            ['|', false],
+            ['}', false],
+            ['~', false],
+        ];
+    }
+
+    /**
+     * test_alphaNumericSymbols
+     * @dataProvider dataProvider_alphaNumericSymbols
+     * @return void
+     */
+    public function test_alphaNumericSymbols($check, $expected)
+    {
+        $reault = ApollonValidation::alphaNumericSymbols($check);
+        $this->assertEquals($reault, $expected);
+    }
+    public function dataProvider_alphaNumericSymbols()
+    {
+        return [
+            // 半角英字小文字
+            ['abcdefghijklmnopqrstuvwxyz', true],
+            // 半角英字大文字
+            ['ABCDEFGHIJKLMNOPQRSTUVWXYZ', true],
+            // 半角数値(文字列)
+            ['0123456789', true],
+            // 半角数値(数値)
+            [1234567890, true],
+            // 半角数値(0)
+            [0, true],
+            // 記号
+            ['!', true],
+            ['"', true],
+            ['#', true],
+            ['$', true],
+            ['%', true],
+            ['&', true],
+            ["'", true],
+            ['(', true],
+            [')', true],
+            ['*', true],
+            ['+', true],
+            [',', true],
+            ['-', true],
+            ['.', true],
+            ['/', true],
+            [':', true],
+            [';', true],
+            ['<', true],
+            ['=', true],
+            ['>', true],
+            ['?', true],
+            ['@', true],
+            ['[', true],
+            ['\\', true],
+            [']', true],
+            ['^', true],
+            ['_', true],
+            ['`', true],
+            ['{', true],
+            ['|', true],
+            ['}', true],
+            ['~', true],
+            // 半角英字小文字 + 半角英字大文字
+            ['abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', true],
+            // 半角英字小文字 + 半角英字大文字 + 半角数字
+            ['abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890', true],
+            // 半角英字小文字 + 半角英字大文字 + 半角数字 + 記号
+            ['abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!"#$%&()*+,-.:;<=>?@[\]^_`{|}~',true],
+            // 全角英字小文字
+            ['ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚ', false],
+            // 全角英字大文字
+            ['ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ', false],
+            // 全角数値大文字
+            ['０１２３４５６７８９', false],
+            // 全角ひらがな
+            ['あいうえおかきくけこ', false],
+            // 全角カタカナ
+            ['アイウエオカキクケコ', false],
+            // 半角カタカナ
+            ['ｱｲｳｴｵｳﾞ', false],
+            // 全角スペース
+            ['　', false],
+            // 半角スペース
+            [' ', false],
+        ];
+    }
+
+    /**
      * test_naturalNumber method
      *
      * @return void

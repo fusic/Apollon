@@ -91,6 +91,45 @@ class ApollonValidation extends Validation
     }
 
     /**
+     * alphaNumeric
+     * 半角英数チェック
+     * CoreのalphaNumericは日本語を通過させてしまうため、上書き
+     * @access public
+     * @author ito
+     * @param string $check
+     * @return boolean
+     */
+    public static function alphaNumeric($check)
+    {
+        $regex = '/^[a-zA-Z0-9]+$/u';
+        return (bool) self::_check($check, $regex);
+    }
+
+    /**
+     * alphaNumericSymbols
+     * 半角英数記号チェック
+     * 参考URL：http://defindit.com/ascii.html
+     * @access public
+     * @author ito
+     * @param string $check
+     * @return boolean
+     */
+    public static function alphaNumericSymbols($check)
+    {
+        // \x21-\x2f
+        // ! " # $ % & ' ( ) * + , - . /
+        // \x3a-\x40
+        // : ; < = > ? @
+        // \x5b-\x60
+        // [ \ ] ^ _ `
+        // \x7b-\x7e
+        // { | } ~
+        // 半角スペース、全角スペースは認めない
+        $regex = '/^[a-zA-Z0-9\x21-\x2f\x3a-\x40\x5b-\x60\x7b-\x7e]+$/u';
+        return (bool) self::_check($check, $regex);
+    }
+
+    /**
      * naturalNumber
      * 数値チェック
      * integerなどの上限チェックを同時に行う
