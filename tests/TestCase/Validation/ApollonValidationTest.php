@@ -174,16 +174,16 @@ class ApollonValidationTest extends TestCase
     }
 
     /**
-     * test_alphaNumericRejectJpString
-     * @dataProvider dataProvider_alphaNumericRejectJpString
+     * test_alphaNumericJp
+     * @dataProvider dataProvider_alphaNumericJp
      * @return void
      */
-    public function test_alphaNumericRejectJpString($check, $expected)
+    public function test_alphaNumericJp($check, $expected)
     {
-        $reault = ApollonValidation::alphaNumericRejectJpString($check);
+        $reault = ApollonValidation::alphaNumericJp($check);
         $this->assertEquals($reault, $expected);
     }
-    public function dataProvider_alphaNumericRejectJpString()
+    public function dataProvider_alphaNumericJp()
     {
         return [
             // 半角英字小文字

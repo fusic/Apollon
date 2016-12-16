@@ -91,7 +91,7 @@ class ApollonValidation extends Validation
     }
 
     /**
-     * alphaNumericRejectJpString
+     * alphaNumericJp
      * 半角英数チェック
      * CoreのalphaNumericは日本語を通過させてしまうため、上書き
      * @access public
@@ -99,7 +99,7 @@ class ApollonValidation extends Validation
      * @param string $check
      * @return boolean
      */
-    public static function alphaNumericRejectJpString($check)
+    public static function alphaNumericJp($check)
     {
         $regex = '/^[a-zA-Z0-9]+$/u';
         return (bool) self::_check($check, $regex);
