@@ -310,7 +310,7 @@ class ApollonValidation extends Validation
      */
     public static function phone($check)
     {
-        $regex = '/\A(((0(\d{1}[-(]?\d{4}|\d{2}[-(]?\d{3}|\d{3}[-(]?\d{2}|\d{4}[-(]?\d{1}|[5789]0[-(]?\d{4})[-)]?)|\d{1,4}\-?)\d{4}|0120[-(]?\d{3}[-)]?\d{3})\z/';
+        $regex = '/^[0-9]{2,5}-?[0-9]{1,4}-?[0-9]{4}$|0120[-]?\d{3}[-]?\d{3}/';
         return self::_check($check, $regex);
     }
 

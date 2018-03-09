@@ -762,6 +762,8 @@ class ApollonValidationTest extends TestCase
             ['12345612341234', false],
             ['12345-12345-1234', false],
             ['12345123451234', false],
+            ['0120-123-456', true],
+            ['0121-123-456', false],
             ['１２-３４５６-７８９０', false],
             ['アイウエオー', false],
             ['あいうえおー', false],
