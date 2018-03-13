@@ -310,7 +310,7 @@ class ApollonValidation extends Validation
      */
     public static function phone($check)
     {
-        $regex = '/^[0-9]{2,5}-?[0-9]{1,4}-?[0-9]{4}$|0120[-]?\d{3}[-]?\d{3}/';
+        $regex = '/^[0-9]{2,5}-?[0-9]{1,4}-?[0-9]{1,4}$/';
         return self::_check($check, $regex);
     }
 
@@ -331,7 +331,7 @@ class ApollonValidation extends Validation
 
     /**
      * phone2
-     * 範囲は2～4桁
+     * 範囲は1～4桁
      *
      * @access public
      * @author hayasaki
@@ -340,13 +340,13 @@ class ApollonValidation extends Validation
      */
     public static function phone2($check)
     {
-        $regex = '/^[0-9]{2,4}$/';
+        $regex = '/^[0-9]{1,4}$/';
         return self::_check($check, $regex);
     }
 
     /**
      * phone3
-     * 範囲は4桁固定
+     * 範囲は1～4桁
      *
      * @access public
      * @author hayasaki
@@ -355,7 +355,7 @@ class ApollonValidation extends Validation
      */
     public static function phone3($check)
     {
-        $regex = '/^[0-9]{4}$/';
+        $regex = '/^[0-9]{1,4}$/';
         return self::_check($check, $regex);
     }
 
