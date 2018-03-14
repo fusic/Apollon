@@ -762,6 +762,7 @@ class ApollonValidationTest extends TestCase
             ['12345612341234', false],
             ['12345-12345-1234', false],
             ['12345123451234', false],
+            ['0120-123-456', true],
             ['１２-３４５６-７８９０', false],
             ['アイウエオー', false],
             ['あいうえおー', false],
@@ -822,10 +823,10 @@ class ApollonValidationTest extends TestCase
     public function dataProvider_phone2()
     {
         return [
+            ['1', true],
             ['12', true],
             ['123', true],
             ['1234', true],
-            ['1', false],
             ['12345', false],
             ['１２-３４５６-７８９０', false],
             ['アイウエオー', false],
@@ -854,8 +855,10 @@ class ApollonValidationTest extends TestCase
     public function dataProvider_phone3()
     {
         return [
+            ['1', true],
+            ['12', true],
+            ['123', true],
             ['1234', true],
-            ['123', false],
             ['12345', false],
             ['１２-３４５６-７８９０', false],
             ['アイウエオー', false],
