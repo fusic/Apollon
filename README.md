@@ -3,7 +3,43 @@
 [![Build Status](https://img.shields.io/travis/fusic/Apollon/master.svg?style=flat-square)](https://travis-ci.org/fusic/Apollon)
 [![Code Quality](http://img.shields.io/scrutinizer/g/fusic/Apollon.svg?style=flat-square)](https://scrutinizer-ci.com/g/fusic/Apollon/)
 
-##バリデーション一覧
+### セットアップ
+
+```
+composer require fusic/apollon
+```
+
+In Model File
+
+```
+ private function setValidationProvider(Validator $validator)
+    {
+       $validator->provider('apollon', 'Apollon\Validation\ApollonValidation');
+       return $validator;
+    }
+```
+
+
+### 使用例
+
+```
+public function validationDefault(Validator $validator)
+    {
+        $this->setValidationProvider($validator);
+        $validator
+            ->scalar('password')
+            ->requirePresence('password', 'create')
+            ->notEmpty('password', 'パスワードを入力してください')
+            ->add('password', 'password',[
+                'rule' => 'alphaNumericSymbols',
+                'provider' => 'apollon',
+                'message' => 'パスワードは半角英数記号で入力してください'
+            ]);
+    }
+```
+
+
+### バリデーション一覧
 - zip
   - 郵便番号チェック 1カラム
 - zip1
