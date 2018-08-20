@@ -3,7 +3,7 @@
 [![Build Status](https://img.shields.io/travis/fusic/Apollon/master.svg?style=flat-square)](https://travis-ci.org/fusic/Apollon)
 [![Code Quality](http://img.shields.io/scrutinizer/g/fusic/Apollon.svg?style=flat-square)](https://scrutinizer-ci.com/g/fusic/Apollon/)
 
-## セットアップ
+### セットアップ
 
 ```
 composer require fusic/apollon
@@ -20,7 +20,7 @@ In Model File
 ```
 
 
-## 使用例
+### 使用例
 
 ```
 public function validationDefault(Validator $validator)
@@ -39,7 +39,7 @@ public function validationDefault(Validator $validator)
 ```
 
 
-##バリデーション一覧
+### バリデーション一覧
 - zip
   - 郵便番号チェック 1カラム
 - zip1
