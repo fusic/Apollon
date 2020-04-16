@@ -3,8 +3,12 @@
 	colors="true"
 	processIsolation="false"
 	stopOnFailure="false"
-	bootstrap="./tests/bootstrap.php"
+	syntaxCheck="false"
+    bootstrap="./tests/bootstrap.php"
 	>
+	<php>
+		<ini name="memory_limit" value="-1"/>
+	</php>
 
 	<!-- Add any additional test suites you want to run here -->
 	<testsuites>
