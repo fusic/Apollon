@@ -15,7 +15,7 @@ class ApollonValidation extends Validation
      * @param string $check
      * @return boolean
      */
-    public static function zip($check)
+    public static function zip($check): bool
     {
         $regex = '/^[0-9]{3}-?[0-9]{4}$/';
         return self::_check($check, $regex);
@@ -30,7 +30,7 @@ class ApollonValidation extends Validation
      * @param string $check
      * @return boolean
      */
-    public static function zip1($check)
+    public static function zip1($check): bool
     {
         $regex = '/^[0-9]{3}$/';
         return self::_check($check, $regex);
@@ -45,7 +45,7 @@ class ApollonValidation extends Validation
      * @param string $check
      * @return boolean
      */
-    public static function zip2($check)
+    public static function zip2($check): bool
     {
         $regex = '/^[0-9]{4}$/';
         return self::_check($check, $regex);
@@ -59,7 +59,7 @@ class ApollonValidation extends Validation
      * @param string $check
      * @return boolean
      */
-    public static function alpha($check)
+    public static function alpha($check): bool
     {
         $regex = '/^[a-zA-Z]+$/u';
         return self::_check($check, $regex);
@@ -76,7 +76,7 @@ class ApollonValidation extends Validation
      * @param integer $limit
      * @return boolean
      */
-    public static function numeric($check, $limit = 2147483647)
+    public static function numeric($check, $limit = 2147483647): bool
     {
         //providersが間違いなく$contextの内容と考えられるので初期値を入力しなおす
         if (is_array($limit) && isset($limit['providers'])) {
@@ -99,7 +99,7 @@ class ApollonValidation extends Validation
      * @param string $check
      * @return boolean
      */
-    public static function alphaNumericJp($check)
+    public static function alphaNumericJp($check): bool
     {
         $regex = '/^[a-zA-Z0-9]+$/u';
         return (bool) self::_check($check, $regex);
@@ -114,7 +114,7 @@ class ApollonValidation extends Validation
      * @param string $check
      * @return boolean
      */
-    public static function alphaNumericSymbols($check)
+    public static function alphaNumericSymbols($check): bool
     {
         // \x21-\x2f
         // ! " # $ % & ' ( ) * + , - . /
@@ -141,7 +141,7 @@ class ApollonValidation extends Validation
      * @param integer $limit
      * @return boolean
      */
-    public static function naturalNumber($check, $allowZero = false, $limit = 2147483647)
+    public static function naturalNumber($check, $allowZero = false, $limit = 2147483647): bool
     {
         //providersが間違いなく$contextの内容と考えられるので初期値を入力しなおす
         if (is_array($allowZero) && isset($allowZero['providers'])) {
@@ -167,7 +167,7 @@ class ApollonValidation extends Validation
      * @return boolean
      * https://github.com/ichikaway/cakeplus
      */
-    public static function hiraganaOnly($check)
+    public static function hiraganaOnly($check): bool
     {
         $regex = '/^(\xe3(\x81[\x81-\xbf]|\x82[\x80-\x93]|\x83\xbc))*$/';
         return self::_check($check, $regex);
@@ -180,7 +180,7 @@ class ApollonValidation extends Validation
      * @param string $check
      * @return boolean
      */
-    public static function hiraganaSpaceOnly($check)
+    public static function hiraganaSpaceOnly($check): bool
     {
         $regex = '/^(\xe3(\x81[\x81-\xbf]|\x82[\x80-\x93]|\x83\xbc)|　)*$/';
         return self::_check($check, $regex);
@@ -193,7 +193,7 @@ class ApollonValidation extends Validation
      * @param string $check
      * @return boolean
      */
-    public static function hiraganaAllSpaceOnly($check)
+    public static function hiraganaAllSpaceOnly($check): bool
     {
         $regex = '/^(\xe3(\x81[\x81-\xbf]|\x82[\x80-\x93]|\x83\xbc)|\x20|　)*$/';
         return self::_check($check, $regex);
@@ -208,7 +208,7 @@ class ApollonValidation extends Validation
      * @return boolean
      * https://github.com/ichikaway/cakeplus
      */
-    public static function katakanaOnly($check)
+    public static function katakanaOnly($check): bool
     {
         //\xe3\x82\x9b 濁点゛
         //\xe3\x82\x9c 半濁点゜
@@ -223,7 +223,7 @@ class ApollonValidation extends Validation
      * @param string $check
      * @return boolean
      */
-    public static function katakanaSpaceOnly($check)
+    public static function katakanaSpaceOnly($check): bool
     {
         $regex = '/^(\xe3(\x82[\xa1-\xbf]|\x83[\x80-\xb6]|\x83\xbc|\x82\x9b|\x82\x9c)|　)*$/';
         return self::_check($check, $regex);
@@ -236,7 +236,7 @@ class ApollonValidation extends Validation
      * @param string $check
      * @return boolean
      */
-    public static function katakanaAllSpaceOnly($check)
+    public static function katakanaAllSpaceOnly($check): bool
     {
         $regex = '/^(\xe3(\x82[\xa1-\xbf]|\x83[\x80-\xb6]|\x83\xbc|\x82\x9b|\x82\x9c)|\x20|　)*$/';
         return self::_check($check, $regex);
@@ -251,7 +251,7 @@ class ApollonValidation extends Validation
      * @return boolean
      * https://github.com/ichikaway/cakeplus
      */
-    public static function zenkakuOnly($check)
+    public static function zenkakuOnly($check): bool
     {
         $regex = '/(?:\xEF\xBD[\xA1-\xBF]|\xEF\xBE[\x80-\x9F])|[\x20-\x7E]/';
         return !self::_check($check, $regex);
@@ -266,7 +266,7 @@ class ApollonValidation extends Validation
      * @return boolean
      * https://github.com/ichikaway/cakeplus
      */
-    public static function spaceOnly($check)
+    public static function spaceOnly($check): bool
     {
         $regex = '/^(\s|　)+$/';
         return !self::_check($check, $regex);
@@ -280,7 +280,7 @@ class ApollonValidation extends Validation
      * @param string $check
      * @return boolean
      */
-    public static function hankakukatakanaOnly($check)
+    public static function hankakukatakanaOnly($check): bool
     {
         $regex = '/^(?:\xEF\xBD[\xA6-\xBF]|\xEF\xBE[\x80-\x9F])*$/';
         return self::_check($check, $regex);
@@ -294,7 +294,7 @@ class ApollonValidation extends Validation
      * @param string $check
      * @return boolean
      */
-    public static function hankakukatakanaSpaceOnly($check)
+    public static function hankakukatakanaSpaceOnly($check): bool
     {
         $regex = '/^(?:\xEF\xBD[\xA6-\xBF]|\xEF\xBE[\x80-\x9F]|\x20)*$/';
         return self::_check($check, $regex);
@@ -308,7 +308,7 @@ class ApollonValidation extends Validation
      * @param string $check
      * @return boolean
      */
-    public static function phone($check)
+    public static function phone($check): bool
     {
         $regex = '/^[0-9]{2,5}-?[0-9]{1,4}-?[0-9]{1,4}$/';
         return self::_check($check, $regex);
@@ -323,7 +323,7 @@ class ApollonValidation extends Validation
      * @param string $check
      * @return boolean
      */
-    public static function phone1($check)
+    public static function phone1($check): bool
     {
         $regex = '/^[0-9]{2,5}$/';
         return self::_check($check, $regex);
@@ -338,7 +338,7 @@ class ApollonValidation extends Validation
      * @param string $check
      * @return boolean
      */
-    public static function phone2($check)
+    public static function phone2($check): bool
     {
         $regex = '/^[0-9]{1,4}$/';
         return self::_check($check, $regex);
@@ -353,7 +353,7 @@ class ApollonValidation extends Validation
      * @param string $check
      * @return boolean
      */
-    public static function phone3($check)
+    public static function phone3($check): bool
     {
         $regex = '/^[0-9]{1,4}$/';
         return self::_check($check, $regex);
@@ -368,7 +368,7 @@ class ApollonValidation extends Validation
      * @param string $check
      * @return boolean
      */
-    public static function emailNonRfc($check)
+    public static function emailNonRfc($check): bool
     {
         $regex = '/^[\.a-z0-9!#$%&\'*+\/=?^_`{|}~-]+@' . self::$_pattern['hostname'] . '$/ui';
         return self::_check($check, $regex);
@@ -386,7 +386,7 @@ class ApollonValidation extends Validation
      * @param $context
      * @return boolean
      */
-    public static function datetimeComparison($check1, $operator, $check2, $context)
+    public static function datetimeComparison($check1, $operator, $check2, $context): bool
     {
         $date1 = $check1;
         $date2 = $context['data'][$check2];
