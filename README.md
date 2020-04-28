@@ -14,7 +14,7 @@ In Model File
 ```
  private function setValidationProvider(Validator $validator)
     {
-       $validator->provider('apollon', 'Apollon\Validation\ApollonValidation');
+       $validator->setProvider('apollon', 'Apollon\Validation\ApollonValidation');
        return $validator;
     }
 ```
