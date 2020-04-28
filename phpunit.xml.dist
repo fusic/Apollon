@@ -19,7 +19,7 @@
 	</testsuites>
 
 	<!-- Setup a listener for fixtures -->
-    <!-- 
+    <!--
 	<listeners>
 		<listener
 		class="\Cake\TestSuite\Fixture\FixtureInjector"
