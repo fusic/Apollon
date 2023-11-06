@@ -23,11 +23,8 @@
     "require-dev": {
         "cakephp/cakephp-codesniffer": "^4.0",
         "phpunit/phpunit": "*",
-        "fabpot/php-cs-fixer": "*",
-        "cakephp/upgrade": "5.x-dev"
+        "fabpot/php-cs-fixer": "*"
     },
-    "minimum-stability": "dev",
-    "prefer-stable": true,
     "autoload": {
         "psr-4": {
             "Apollon\\": "src"
