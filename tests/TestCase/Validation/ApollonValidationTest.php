@@ -40,7 +40,7 @@ class ApollonValidationTest extends TestCase
         $reault = ApollonValidation::zip($check);
         $this->assertEquals($reault, $expected);
     }
-    public function dataProvider_zip()
+    public static function dataProvider_zip()
     {
         return [
             // 3桁-4桁
@@ -65,7 +65,7 @@ class ApollonValidationTest extends TestCase
         $reault = ApollonValidation::zip1($check);
         $this->assertEquals($reault, $expected);
     }
-    public function dataProvider_zip1()
+    public static function dataProvider_zip1()
     {
         return [
             // 3桁-4桁
@@ -90,7 +90,7 @@ class ApollonValidationTest extends TestCase
         $reault = ApollonValidation::zip2($check);
         $this->assertEquals($reault, $expected);
     }
-    public function dataProvider_zip2()
+    public static function dataProvider_zip2()
     {
         return [
             // 3桁-4桁
@@ -114,7 +114,7 @@ class ApollonValidationTest extends TestCase
         $reault = ApollonValidation::numeric($check);
         $this->assertEquals($reault, $expected);
     }
-    public function dataProvider_numeric()
+    public static function dataProvider_numeric()
     {
         return [
             [0, true],
@@ -153,7 +153,7 @@ class ApollonValidationTest extends TestCase
         $reault = ApollonValidation::numeric($check, $limit);
         $this->assertEquals($reault, $expected);
     }
-    public function dataProvider_numeric_limit()
+    public static function dataProvider_numeric_limit()
     {
         return [
             [1000, 1000,  true],
@@ -183,7 +183,7 @@ class ApollonValidationTest extends TestCase
         $reault = ApollonValidation::alphaNumericJp($check);
         $this->assertEquals($reault, $expected);
     }
-    public function dataProvider_alphaNumericJp()
+    public static function dataProvider_alphaNumericJp()
     {
         return [
             // 半角英字小文字
@@ -266,7 +266,7 @@ class ApollonValidationTest extends TestCase
         $reault = ApollonValidation::alphaNumericSymbols($check);
         $this->assertEquals($reault, $expected);
     }
-    public function dataProvider_alphaNumericSymbols()
+    public static function dataProvider_alphaNumericSymbols()
     {
         return [
             // 半角英字小文字
@@ -349,7 +349,7 @@ class ApollonValidationTest extends TestCase
         $reault = ApollonValidation::naturalNumber($check);
         $this->assertEquals($reault, $expected);
     }
-    public function dataProvider_naturalNumber()
+    public static function dataProvider_naturalNumber()
     {
         return [
             ['1', true],
@@ -376,7 +376,7 @@ class ApollonValidationTest extends TestCase
         $reault = ApollonValidation::naturalNumber($check, $allowZero);
         $this->assertEquals($reault, $expected);
     }
-    public function dataProvider_naturalNumberAllowZero()
+    public static function dataProvider_naturalNumberAllowZero()
     {
         return [
             ['0', true, true],
@@ -396,7 +396,7 @@ class ApollonValidationTest extends TestCase
         $reault = ApollonValidation::hiraganaOnly($check);
         $this->assertEquals($reault, $expected);
     }
-    public function dataProvider_hiraganaOnly()
+    public static function dataProvider_hiraganaOnly()
     {
         return [
             ['', true],
@@ -430,7 +430,7 @@ class ApollonValidationTest extends TestCase
         $reault = ApollonValidation::hiraganaSpaceOnly($check);
         $this->assertEquals($reault, $expected);
     }
-    public function dataProvider_hiraganaSpaceOnly()
+    public static function dataProvider_hiraganaSpaceOnly()
     {
         return [
             ['', true],
@@ -466,7 +466,7 @@ class ApollonValidationTest extends TestCase
         $reault = ApollonValidation::hiraganaAllSpaceOnly($check);
         $this->assertEquals($reault, $expected);
     }
-    public function dataProvider_hiraganaAllSpaceOnly()
+    public static function dataProvider_hiraganaAllSpaceOnly()
     {
         return [
             ['', true],
@@ -502,7 +502,7 @@ class ApollonValidationTest extends TestCase
         $reault = ApollonValidation::katakanaOnly($check);
         $this->assertEquals($reault, $expected);
     }
-    public function dataProvider_katakanaOnly()
+    public static function dataProvider_katakanaOnly()
     {
         return [
             ['', true],
@@ -537,7 +537,7 @@ class ApollonValidationTest extends TestCase
         $reault = ApollonValidation::katakanaSpaceOnly($check);
         $this->assertEquals($reault, $expected);
     }
-    public function dataProvider_katakanaSpaceOnly()
+    public static function dataProvider_katakanaSpaceOnly()
     {
         return [
             ['', true],
@@ -573,7 +573,7 @@ class ApollonValidationTest extends TestCase
         $reault = ApollonValidation::katakanaAllSpaceOnly($check);
         $this->assertEquals($reault, $expected);
     }
-    public function dataProvider_katakanaAllSpaceOnly()
+    public static function dataProvider_katakanaAllSpaceOnly()
     {
         return [
             ['', true],
@@ -609,7 +609,7 @@ class ApollonValidationTest extends TestCase
         $reault = ApollonValidation::zenkakuOnly($check);
         $this->assertEquals($reault, $expected);
     }
-    public function dataProvider_zenkakuOnly()
+    public static function dataProvider_zenkakuOnly()
     {
         return [
             ['', true],
@@ -643,7 +643,7 @@ class ApollonValidationTest extends TestCase
         $reault = ApollonValidation::spaceOnly($check);
         $this->assertEquals($reault, $expected);
     }
-    public function dataProvider_spaceOnly()
+    public static function dataProvider_spaceOnly()
     {
         return [
             [' ', false],
@@ -665,7 +665,7 @@ class ApollonValidationTest extends TestCase
         $reault = ApollonValidation::hankakukatakanaOnly($check);
         $this->assertEquals($reault, $expected);
     }
-    public function dataProvider_hankakukatakanaOnly()
+    public static function dataProvider_hankakukatakanaOnly()
     {
         return [
             ['', true],
@@ -696,7 +696,7 @@ class ApollonValidationTest extends TestCase
         $reault = ApollonValidation::hankakukatakanaSpaceOnly($check);
         $this->assertEquals($reault, $expected);
     }
-    public function dataProvider_hankakukatakanaSpaceOnly()
+    public static function dataProvider_hankakukatakanaSpaceOnly()
     {
         return [
             ['', true],
@@ -728,7 +728,7 @@ class ApollonValidationTest extends TestCase
         $reault = ApollonValidation::phone($check);
         $this->assertEquals($reault, $expected);
     }
-    public function dataProvider_phone()
+    public static function dataProvider_phone()
     {
         return [
             ['12-1234-1234', true],
@@ -787,7 +787,7 @@ class ApollonValidationTest extends TestCase
         $reault = ApollonValidation::phone1($check);
         $this->assertEquals($reault, $expected);
     }
-    public function dataProvider_phone1()
+    public static function dataProvider_phone1()
     {
         return [
             ['12', true],
@@ -820,7 +820,7 @@ class ApollonValidationTest extends TestCase
         $reault = ApollonValidation::phone2($check);
         $this->assertEquals($reault, $expected);
     }
-    public function dataProvider_phone2()
+    public static function dataProvider_phone2()
     {
         return [
             ['1', true],
@@ -852,7 +852,7 @@ class ApollonValidationTest extends TestCase
         $reault = ApollonValidation::phone3($check);
         $this->assertEquals($reault, $expected);
     }
-    public function dataProvider_phone3()
+    public static function dataProvider_phone3()
     {
         return [
             ['1', true],
@@ -884,7 +884,7 @@ class ApollonValidationTest extends TestCase
         $reault = ApollonValidation::emailNonRfc($check);
         $this->assertEquals($reault, $expected);
     }
-    public function dataProvider_emailNonRfc()
+    public static function dataProvider_emailNonRfc()
     {
         return [
             ['tomonori..shimada@example.jp', true],
@@ -1122,7 +1122,7 @@ class ApollonValidationTest extends TestCase
         $this->assertEquals($reault, $expected);
     }
 
-    public function dataProvider_datetimeComparison()
+    public static function dataProvider_datetimeComparison()
     {
         return [
             ['greaterorequal', true],
@@ -1140,7 +1140,7 @@ class ApollonValidationTest extends TestCase
         ];
     }
 
-    public function dataProvider_datetimeComparisonRevert()
+    public static function dataProvider_datetimeComparisonRevert()
     {
         return [
             ['greaterorequal', false],

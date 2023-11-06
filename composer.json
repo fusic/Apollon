@@ -18,13 +18,16 @@
         "source": "https://github.com/fusic/Apollon"
     },
     "require": {
-        "cakephp/cakephp": "~4.0"
+        "cakephp/cakephp": "~5.0"
     },
     "require-dev": {
         "cakephp/cakephp-codesniffer": "^4.0",
         "phpunit/phpunit": "*",
-        "fabpot/php-cs-fixer": "*"
+        "fabpot/php-cs-fixer": "*",
+        "cakephp/upgrade": "5.x-dev"
     },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "autoload": {
         "psr-4": {
             "Apollon\\": "src"
@@ -39,5 +42,10 @@
     "suggest": {
     },
     "extra": {
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
     }
 }

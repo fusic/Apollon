@@ -409,27 +409,27 @@ class ApollonValidation extends Validation
         switch ($operator) {
             case 'isgreater':
             case '>':
-                return $parseDate1->gt($parseDate2);
+                return $parseDate1->greaterThan($parseDate2);
 
             case 'isless':
             case '<':
-                return $parseDate1->lt($parseDate2);
+                return $parseDate1->lessThan($parseDate2);
 
             case 'greaterorequal':
             case '>=':
-                return $parseDate1->gte($parseDate2);
+                return $parseDate1->greaterThanOrEquals($parseDate2);
 
             case 'lessorequal':
             case '<=':
-                return $parseDate1->lte($parseDate2);
+                return $parseDate1->lessthanOrEquals($parseDate2);
 
             case 'equalto':
             case '==':
-                return $parseDate1->eq($parseDate2);
+                return $parseDate1->equals($parseDate2);
 
             case 'notequal':
             case '!=':
-                return $parseDate1->ne($parseDate2);
+                return $parseDate1->notEquals($parseDate2);
 
             default:
                 static::$errors[] = 'You must define the $operator parameter for Validation::datetimeComparison()';
