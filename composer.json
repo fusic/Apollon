@@ -1,13 +1,10 @@
 {
     "name": "fusic/apollon",
     "description": "CakePHP Apollon",
-    "license": [
-        "MIT"
-    ],
+    "license": "MIT",
     "type": "cakephp-plugin",
     "keywords": ["cakephp", "validation"],
     "homepage": "https://github.com/fusic/Apollon",
-    "license": "MIT",
     "authors": [
         {
             "name": "Fusic",
