@@ -1,9 +1,10 @@
 <?php
+declare(strict_types=1);
 
 namespace Apollon\Model\Behavior;
 
+use Cake\Event\EventInterface;
 use Cake\ORM\Behavior;
-use Cake\Event\Event;
 use Cake\Validation\Validator;
 
 class ApollonBehavior extends Behavior
@@ -11,17 +12,15 @@ class ApollonBehavior extends Behavior
     /**
      * バリデーター初期化イベント
      *
-     * @access public
-     * @author sakuragawa
-     * @param Event $event
-     * @param Validator $validator
+     * @param \Cake\Event\EventInterface $event
+     * @param \Cake\Validation\Validator $validator
      * @param string $name
-     * @return Validator
+     * @return \Apollon\Model\Behavior\Validation\Validator
      */
-    public function buildValidator(Event $event, Validator $validator, $name): Validator
+    public function buildValidator(EventInterface $event, Validator $validator, string $name): Validator
     {
         // ここで自作をしたproviderを追加してあげます。
-        $validator->provider('default', 'Apollon\Validation\ApollonValidation');
+        $validator->setProvider('default', 'Apollon\Validation\ApollonValidation');
 
         return $validator;
     }
@@ -29,8 +28,6 @@ class ApollonBehavior extends Behavior
     /**
      * イベント設定
      *
-     * @access public
-     * @author sakuragawa
      * @return array
      */
     public function implementedEvents(): array
@@ -39,6 +36,7 @@ class ApollonBehavior extends Behavior
 
         // buildValidatorを登録
         $events['Model.buildValidator'] = 'buildValidator';
+
         return $events;
     }
 }
