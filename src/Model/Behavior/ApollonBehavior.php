@@ -15,7 +15,7 @@ class ApollonBehavior extends Behavior
      * @param \Cake\Event\EventInterface $event
      * @param \Cake\Validation\Validator $validator
      * @param string $name
-     * @return \Apollon\Model\Behavior\Validation\Validator
+     * @return \Cake\Validation\Validator
      */
     public function buildValidator(EventInterface $event, Validator $validator, string $name): Validator
     {
