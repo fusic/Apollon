@@ -1,26 +1,31 @@
 # Apollon
 
-[![Build Status](https://img.shields.io/travis/fusic/Apollon/master.svg?style=flat-square)](https://travis-ci.org/fusic/Apollon)
-[![Code Quality](http://img.shields.io/scrutinizer/g/fusic/Apollon.svg?style=flat-square)](https://scrutinizer-ci.com/g/fusic/Apollon/)
+## Description
 
-### セットアップ
+validation plugin for CakePHP 5.x.
+
+## Requirements
+
+- PHP >= 8.1.*
+- CakePHP >= 5.*
+
+### Install
 
 ```
 composer require fusic/apollon
 ```
 
-In Model File
+### Usage
+
+#### In Model File
 
 ```
- private function setValidationProvider(Validator $validator)
+private function setValidationProvider(Validator $validator)
     {
        $validator->setProvider('apollon', 'Apollon\Validation\ApollonValidation');
        return $validator;
     }
 ```
-
-
-### 使用例
 
 ```
 public function validationDefault(Validator $validator)
@@ -38,8 +43,8 @@ public function validationDefault(Validator $validator)
     }
 ```
 
+### Validation List
 
-### バリデーション一覧
 - zip
   - 郵便番号チェック 1カラム
 - zip1

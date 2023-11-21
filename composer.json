@@ -1,13 +1,10 @@
 {
     "name": "fusic/apollon",
     "description": "CakePHP Apollon",
-    "license": [
-        "MIT"
-    ],
+    "license": "MIT",
     "type": "cakephp-plugin",
     "keywords": ["cakephp", "validation"],
     "homepage": "https://github.com/fusic/Apollon",
-    "license": "MIT",
     "authors": [
         {
             "name": "Fusic",
@@ -18,12 +15,12 @@
         "source": "https://github.com/fusic/Apollon"
     },
     "require": {
-        "cakephp/cakephp": "~4.0"
+        "php": ">=8.1.0",
+        "cakephp/cakephp": "~5.0"
     },
     "require-dev": {
-        "cakephp/cakephp-codesniffer": "^4.0",
-        "phpunit/phpunit": "*",
-        "fabpot/php-cs-fixer": "*"
+        "cakephp/cakephp-codesniffer": "*",
+        "phpunit/phpunit": "*"
     },
     "autoload": {
         "psr-4": {
@@ -39,5 +36,15 @@
     "suggest": {
     },
     "extra": {
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
+    },
+    "scripts": {
+        "test": "phpunit --colors=always",
+        "phpcs": "phpcs --colors -p -s --standard=phpcs.xml.dist src/ tests/",
+        "phpcbf": "phpcbf --colors --parallel=16 -p src/ tests/"
     }
 }
